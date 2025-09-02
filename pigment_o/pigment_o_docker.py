@@ -135,6 +135,7 @@ class PigmentO_Docker( DockWidget ):
         self.wheel_space = "HSV" # "HSV" "HSL" "HCY" "ARD"
         # Hue
         self.huecircle_shape = "None" # "None" "Triangle" "Square" "Diamond"
+        self.hue_ring_width = 0.1 # 色环宽度 (0.025-0.2)
         # Gamut
         self.gamut_mask = "None" # "None" "Triangle" "Square" "1 Circle" "2 Circle" "3 Pie" "Reset"
         self.gamut_profile = [
@@ -543,6 +544,8 @@ class PigmentO_Docker( DockWidget ):
         # Wheel
         self.dialog.wheel_mode.currentTextChanged.connect( self.Wheel_Mode )
         self.dialog.wheel_space.currentTextChanged.connect( self.Wheel_Space )
+        # Hue Ring Width
+        self.dialog.hue_ring_width.valueChanged.connect( self.Hue_Ring_Width )
         # Analyse
         self.dialog.analyse_display.toggled.connect( self.Analyse_Display )
         # Mixers
@@ -1598,6 +1601,7 @@ class PigmentO_Docker( DockWidget ):
         #region Panel HUE
 
         self.huecircle_shape = self.Set_Read( "STR", "huecircle_shape", self.huecircle_shape )
+        self.hue_ring_width = self.Set_Read( "EVAL", "hue_ring_width", self.hue_ring_width )
 
         #endregion
         #region Panel Gamut
@@ -1644,6 +1648,7 @@ class PigmentO_Docker( DockWidget ):
         self.dialog.panel_index.setCurrentText( self.Set_Read( "STR", "panel_index", "Square" ) )
         self.dialog.wheel_mode.setCurrentText( self.Set_Read( "STR", "wheel_mode", "DIGITAL" ) )
         self.dialog.wheel_space.setCurrentText( self.Set_Read( "STR", "wheel_space", "HSV" ) )
+        self.dialog.hue_ring_width.setValue( self.Set_Read( "EVAL", "hue_ring_width", self.hue_ring_width ) )
         self.dialog.analyse_display.setChecked( self.Set_Read( "EVAL", "analyse_display", False ) )
         # Mixers
         self.dialog.mixer_space.setCurrentText( self.Set_Read( "STR", "mixer_space", "HSV" ) )
@@ -1778,6 +1783,7 @@ class PigmentO_Docker( DockWidget ):
         self.Panel_Index( self.dialog.panel_index.currentText() )
         self.Wheel_Mode( self.dialog.wheel_mode.currentText() )
         self.Wheel_Space( self.dialog.wheel_space.currentText() )
+        self.Hue_Ring_Width( self.dialog.hue_ring_width.value() )
         self.Mixer_Space( self.dialog.mixer_space.currentText() )
         # Dialog Color
         self.Display_Labels( self.dialog.disp_labels.isChecked() )
@@ -2047,6 +2053,22 @@ class PigmentO_Docker( DockWidget ):
 
         # Save
         Krita.instance().writeSetting( "Pigment.O", "wheel_space", str( self.wheel_space ) )
+    
+    # Hue Ring Width
+    def Hue_Ring_Width( self, value ):
+        # Variables
+        self.hue_ring_width = value
+        
+        # UI display
+        if self.dialog.hue_ring_width.value() != self.hue_ring_width:
+            self.dialog.hue_ring_width.setValue( self.hue_ring_width )
+            
+        # Update Modules
+        self.panel_huecircle.Set_HueRingWidth( self.hue_ring_width )
+        
+        # Save
+        Krita.instance().writeSetting( "Pigment.O", "hue_ring_width", str( self.hue_ring_width ) )
+        
     # Analyse
     def Analyse_Display( self, boolean ):
         # Variables

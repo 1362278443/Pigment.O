@@ -61,24 +61,24 @@ def Read_Zip( self, location, tan_range, space, shape ):
         except:pass
 
 # Region
-def Circles( self, painter ):
+def Circles( self, painter, hue_ring_width=0.1 ):
     # Circle 0 ( Everything )
     v0a = 0
     v0b = 1 - ( 2*v0a )
     circle_0 = QPainterPath()
     circle_0.addEllipse( int( self.px + self.side * v0a ), int( self.py + self.side * v0a ), int( self.side * v0b ), int( self.side * v0b ) )
-    # Circle 1 ( Outter Most Region )
-    v1a = 0.025
+    # Circle 1 ( Outter Most Region ) - 可调整的颜色环宽度
+    v1a = hue_ring_width
     v1b = 1 - ( 2*v1a )
     circle_1 = QPainterPath()
     circle_1.addEllipse( int( self.px + self.side * v1a ), int( self.py + self.side * v1a ), int( self.side * v1b ), int( self.side * v1b ) )
-    # Circle 2 ( Inner Most Region )
-    v2a = 0.068
+    # Circle 2 ( Inner Most Region ) - 去掉灰色环，与circle_1相同
+    v2a = hue_ring_width
     v2b = 1 - ( 2*v2a )
     circle_2 = QPainterPath()
     circle_2.addEllipse( int( self.px + self.side * v2a ), int( self.py + self.side * v2a ), int( self.side * v2b ), int( self.side * v2b ) )
     # Circle 3 ( Central Dot )
-    v3a = 0.13
+    v3a = hue_ring_width + 0.01
     v3b = 1 - ( 2*v3a )
     circle_3 = QPainterPath()
     circle_3.addEllipse( int( self.px + self.side * v3a ), int( self.py + self.side * v3a ), int( self.side * v3b ), int( self.side * v3b ) )
@@ -1288,6 +1288,7 @@ class Panel_HueCircle( QWidget ):
         self.wheel_mode = "DIGITAL" # "DIGITAL" "ANALOG"
         self.wheel_space = "HSV" # "HSV" "HSL" "HCY" "ARD"
         self.huecircle_shape = "None" # "None" "Triangle" "Square" "Diamond"
+        self.hue_ring_width = 0.1 # 可调整的色环宽度 (0.025-0.2)
 
         # Color
         self.color = None
@@ -1332,6 +1333,9 @@ class Panel_HueCircle( QWidget ):
     def Set_Shape( self, huecircle_shape ):
         self.huecircle_shape = huecircle_shape
         self.update()
+    def Set_HueRingWidth( self, hue_ring_width ):
+        self.hue_ring_width = max(0.025, min(0.2, hue_ring_width))  # 限制范围
+        self.update()
     def Set_Size( self, ww, hh, subpanel_shape ):
         # Widget
         self.ww = ww
@@ -1349,7 +1353,7 @@ class Panel_HueCircle( QWidget ):
             self.py = self.h2 - ( self.side * 0.5 )
 
         # Variables
-        pad = 5
+        pad = 0  # 去掉间距，避免灰色边框
         # Regions
         widget_square = QRegion(
             int( 0 ),
@@ -1532,7 +1536,7 @@ class Panel_HueCircle( QWidget ):
 
         # Variables
         line_width = 4
-        circle_0, circle_1, circle_2, circle_3 = Circles( self, painter )
+        circle_0, circle_1, circle_2, circle_3 = Circles( self, painter, self.hue_ring_width )
 
         # Hue
         if self.wheel_mode == "DIGITAL":
@@ -1633,6 +1637,21 @@ class Panel_HueCircle( QWidget ):
         painter.setClipPath( circle_01 )
         for i in range( 0, length ):
             painter.drawLine( int( circle_points[i][0] ), int( circle_points[i][1] ), int( self.w2 ), int( self.h2 ) )
+
+        # Light Gray Outer Border for Color Ring
+        painter.setClipPath( QPainterPath() )  # Reset clipping
+        painter.setPen( QPen( QColor( "#c0c0c0" ), 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin ) )  # 淡灰色，2像素宽度
+        painter.setBrush( QtCore.Qt.NoBrush )
+        # Draw outer border of the color ring (内侧绘制，避免被mask裁剪)
+        border_offset = 1  # 边框向内偏移1像素
+        v_outer = border_offset / self.side  # 转换为相对值
+        outer_diameter = self.side * (1 - (2 * v_outer))
+        painter.drawEllipse( 
+            int( self.px + self.side * v_outer ), 
+            int( self.py + self.side * v_outer ), 
+            int( outer_diameter ), 
+            int( outer_diameter ) 
+        )
 
 class Panel_Gamut( QWidget ):
     SIGNAL_VALUE = QtCore.pyqtSignal( dict )
@@ -2278,11 +2297,11 @@ class Panel_Gamut( QWidget ):
         outline.addEllipse( int( 0 ), int( 0 ), int( self.ww ), int( self.hh ) )
         painter.setClipPath( circle_0 )
 
-        # Dark Border
-        painter.setPen( QtCore.Qt.NoPen )
-        painter.setBrush( QBrush( self.color_theme ) )
-        circle_02 = circle_0.subtracted( circle_2 )
-        painter.drawPath( circle_02 )
+        # Dark Border - 去掉灰色边框
+        # painter.setPen( QtCore.Qt.NoPen )
+        # painter.setBrush( QBrush( self.color_theme ) )
+        # circle_02 = circle_0.subtracted( circle_2 )
+        # painter.drawPath( circle_02 )
         # Dark Lines
         painter.setPen( QPen( self.color_theme, line_width, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
         painter.setBrush( QtCore.Qt.NoBrush )
