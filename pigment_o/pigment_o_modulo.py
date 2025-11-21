@@ -1335,25 +1335,43 @@ class Panel_HueCircle( QWidget ):
         self.update()
     def Set_HueRingWidth( self, hue_ring_width ):
         self.hue_ring_width = max(0.025, min(0.2, hue_ring_width))  # 限制范围
+        # 重新计算mask以实现自适应大小
+        if hasattr(self, 'current_subpanel_shape') and hasattr(self, 'ww') and hasattr(self, 'hh'):
+            self.Set_Size(self.ww, self.hh, self.current_subpanel_shape)
         self.update()
     def Set_Size( self, ww, hh, subpanel_shape ):
+        # 记录当前形状以便后续重新计算
+        self.current_subpanel_shape = subpanel_shape
+        
         # Widget
         self.ww = ww
         self.hh = hh
         self.w2 = ww * 0.5
         self.h2 = hh * 0.5
-        # Frame
+        
+        # Variables - 边框预留空间
+        pad = 6  # 为灰色边框预留空间，避免边框被裁剪
+        
+        # Frame - 减去pad值为边框留出空间
         if self.ww >= self.hh:
-            self.side = self.hh
+            self.side = self.hh - 2 * pad  # 减去两倍的pad
             self.px = self.w2 - ( self.side * 0.5 )
-            self.py = 0
+            self.py = pad  # 顶部留出pad空间
         else:
-            self.side = self.ww
-            self.px = 0
+            self.side = self.ww - 2 * pad  # 减去两倍的pad
+            self.px = pad  # 左侧留出pad空间
             self.py = self.h2 - ( self.side * 0.5 )
-
-        # Variables
-        pad = 0  # 去掉间距，避免灰色边框
+            
+        # 原始尺寸（用于mask计算，与HueCircle_Geo保持一致）
+        if self.ww >= self.hh:
+            original_side = self.hh
+            original_px = self.w2 - ( original_side * 0.5 )
+            original_py = 0
+        else:
+            original_side = self.ww
+            original_px = 0
+            original_py = self.h2 - ( original_side * 0.5 )
+            
         # Regions
         widget_square = QRegion(
             int( 0 ),
@@ -1368,38 +1386,54 @@ class Panel_HueCircle( QWidget ):
             x = 0.28
             y = 0.13
             k = 0.07
-            t = 1 - k - x
+            # 使用原始尺寸计算mask，与HueCircle_Geo保持一致
             polygon = QPolygon( [
                 # Top
-                QPoint( int( self.px + x * self.side - pad ),       int( self.py + y * self.side ) ),
-                QPoint( int( self.px + x * self.side ),             int( self.py + y * self.side - pad ) ),
+                QPoint( int( original_px + x * original_side ),       int( original_py + y * original_side ) ),
+                QPoint( int( original_px + x * original_side ),       int( original_py + y * original_side ) ),
                 # Right
-                QPoint( int( self.px + self.side - k * self.side ), int( self.h2 - pad ) ),
-                QPoint( int( self.px + self.side - k * self.side ), int( self.h2 + pad ) ),
+                QPoint( int( original_px + original_side - k * original_side ), int( self.h2 ) ),
+                QPoint( int( original_px + original_side - k * original_side ), int( self.h2 ) ),
                 # Bot
-                QPoint( int( self.px + x * self.side ),             int( self.py + self.side - y * self.side + pad ) ),
-                QPoint( int( self.px + x * self.side - pad ),       int( self.py + self.side - y * self.side ) ),
+                QPoint( int( original_px + x * original_side ),       int( original_py + original_side - y * original_side ) ),
+                QPoint( int( original_px + x * original_side ),       int( original_py + original_side - y * original_side ) ),
                 ] )
             triangle = QRegion( polygon, Qt.OddEvenFill )
             mask_region = widget_square.subtracted( triangle )
         if subpanel_shape == "Square":
-            k = 0.2
+            # 使用与HueCircle_Geo完全相同的几何计算逻辑，基于原始尺寸
+            border_width = 0.015
+            inner_circle_diameter = 1 - 2 * (border_width + self.hue_ring_width)
+            
+            # 加入更大的安全边距，为灰色装饰边框留出空间
+            safety_margin = 0.025  # 与HueCircle_Geo保持一致
+            available_diameter = inner_circle_diameter - safety_margin
+            
+            # 正方形边长 = 可用直径 / √2
+            import math
+            colorpanel_side = available_diameter / math.sqrt(2)
+            
+            # 计算边距：k = (1 - 正方形边长) / 2 - 基于原始尺寸
+            k1 = (1 - colorpanel_side) / 2
+            
+            # 使用原始尺寸计算mask，与HueCircle_Geo保持一致
             square = QRegion(
-                int( self.px + self.side * k - pad ),
-                int( self.py + self.side * k - pad ),
-                int( self.side - ( 2 * k * self.side ) + ( 2 * pad ) ),
-                int( self.side - ( 2 * k * self.side ) + ( 2 * pad ) ),
+                int( original_px + k1 * original_side ),
+                int( original_py + k1 * original_side ),
+                int( original_side * colorpanel_side ),
+                int( original_side * colorpanel_side ),
                 QRegion.Rectangle
                 )
             mask_region = widget_square.subtracted( square )
         if subpanel_shape == "Diamond":
-            k = 0.07
-            kk = ( 1 - k * 2 ) / 2
+            k1 = 0.07
+            kk = ( 1 - k1 * 2 ) / 2
+            # 使用原始尺寸计算mask，与HueCircle_Geo保持一致
             polygon = QPolygon( [
-                    QPoint( int( self.w2 ),                         int( self.h2 - self.side * kk - pad ) ),
-                    QPoint( int( self.w2 + self.side * kk + pad ),  int( self.h2 ) ),
-                    QPoint( int( self.w2 ),                         int( self.h2 + self.side * kk + pad ) ),
-                    QPoint( int( self.w2 - self.side * kk - pad ),  int( self.h2 ) ),
+                    QPoint( int( self.w2 ),                                   int( self.h2 - original_side * kk ) ),
+                    QPoint( int( self.w2 + original_side * kk ),              int( self.h2 ) ),
+                    QPoint( int( self.w2 ),                                   int( self.h2 + original_side * kk ) ),
+                    QPoint( int( self.w2 - original_side * kk ),              int( self.h2 ) ),
                     ] )
             diamond = QRegion( polygon, Qt.OddEvenFill )
             mask_region = widget_square.subtracted( diamond )
@@ -1638,20 +1672,50 @@ class Panel_HueCircle( QWidget ):
         for i in range( 0, length ):
             painter.drawLine( int( circle_points[i][0] ), int( circle_points[i][1] ), int( self.w2 ), int( self.h2 ) )
 
-        # Light Gray Outer Border for Color Ring
-        painter.setClipPath( QPainterPath() )  # Reset clipping
-        painter.setPen( QPen( QColor( "#c0c0c0" ), 2, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin ) )  # 淡灰色，2像素宽度
+        # Light Gray Borders for Color Ring - 在所有内容绘制完成后的最后步骤
+        painter.setClipping( False )  # 完全禁用裁剪
         painter.setBrush( QtCore.Qt.NoBrush )
-        # Draw outer border of the color ring (内侧绘制，避免被mask裁剪)
-        border_offset = 1  # 边框向内偏移1像素
-        v_outer = border_offset / self.side  # 转换为相对值
-        outer_diameter = self.side * (1 - (2 * v_outer))
+        
+        # 外圆边框 - 紧贴色环的circle_0外围，加粗显示
+        painter.setPen( QPen( QColor( "#585858" ), 2.5, Qt.SolidLine ) )  # 加粗灰色边框
+        border_offset = -3  # 无偏移，紧贴circle_0边缘
+        border_x = self.px + border_offset
+        border_y = self.py + border_offset
+        border_size = self.side - 2 * border_offset  # 与circle_0完全一致
+        
         painter.drawEllipse( 
-            int( self.px + self.side * v_outer ), 
-            int( self.py + self.side * v_outer ), 
-            int( outer_diameter ), 
-            int( outer_diameter ) 
+            int( border_x ), 
+            int( border_y ), 
+            int( border_size ), 
+            int( border_size ) 
         )
+        
+        # 内圆边框 - 色环内圈装饰，与色环保持缝隙
+        painter.setPen( QPen( QColor( "#585858" ), 3, Qt.SolidLine ) )  # 稍细的内圈装饰
+        gap_width = 0.006  # 内圈边框与色环之间的缝隙
+        inner_offset = self.hue_ring_width + gap_width  # 色环宽度 + 缝隙
+        inner_x = self.px + self.side * inner_offset
+        inner_y = self.py + self.side * inner_offset
+        inner_size = self.side * (1 - 2 * inner_offset)  # 内圈尺寸
+        
+        painter.drawEllipse( 
+            int( inner_x ), 
+            int( inner_y ), 
+            int( inner_size ), 
+            int( inner_size ) 
+        )
+        
+        # 内圆 - 围绕色环的内边界（如果需要）
+        # inner_circle_diameter = 1 - 2 * self.hue_ring_width
+        # inner_size = self.side * inner_circle_diameter
+        # inner_x = self.px + (self.side - inner_size) / 2
+        # inner_y = self.py + (self.side - inner_size) / 2
+        # painter.drawEllipse( 
+        #     int( inner_x ), 
+        #     int( inner_y ), 
+        #     int( inner_size ), 
+        #     int( inner_size ) 
+        # )
 
 class Panel_Gamut( QWidget ):
     SIGNAL_VALUE = QtCore.pyqtSignal( dict )

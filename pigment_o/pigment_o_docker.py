@@ -2066,6 +2066,9 @@ class PigmentO_Docker( DockWidget ):
         # Update Modules
         self.panel_huecircle.Set_HueRingWidth( self.hue_ring_width )
         
+        # 重新计算布局以实现实时更新
+        self.HueCircle_Geo( self.layout.panel_hue.width(), self.layout.panel_hue.height() )
+        
         # Save
         Krita.instance().writeSetting( "Pigment.O", "hue_ring_width", str( self.hue_ring_width ) )
         
@@ -6090,7 +6093,21 @@ class PigmentO_Docker( DockWidget ):
             h = int( side - y2 * side )
         if self.huecircle_shape == "Square":
             index = 1
-            k1 = 0.2
+            # 确保正方形色盘的对角线完全在色轮内圆内
+            # 正方形对角线 = 边长 * √2，必须 ≤ 色轮内圆直径
+            border_width = 0.015
+            inner_circle_diameter = 1 - 2 * (border_width + self.hue_ring_width) 
+
+            # 加入更大的安全边距，为灰色装饰边框留出空间
+            safety_margin = 0.025  # 从0.01增加到0.025，留出更多空间
+            available_diameter = inner_circle_diameter - safety_margin
+
+            # 正方形边长 = 可用直径 / √2
+            import math
+            colorpanel_side = available_diameter / math.sqrt(2)
+
+            # 计算边距：k = (1 - 正方形边长) / 2
+            k1 = (1 - colorpanel_side) / 2
             k2 = 2 * k1
             px = int( px + k1 * side )
             py = int( py + k1 * side )
