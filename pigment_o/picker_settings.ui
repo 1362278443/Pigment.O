@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>pigmento_settings</class>
- <widget class="QWidget" name="pigmento_settings">
+ <class>picker_settings</class>
+ <widget class="QWidget" name="picker_settings">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -19,7 +19,7 @@
   <property name="focusPolicy">
    <enum>Qt::NoFocus</enum>
   </property>
-  <layout class="QVBoxLayout" name="pigmento_settings_layout">
+  <layout class="QVBoxLayout" name="picker_settings_layout">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -463,47 +463,42 @@
                    </property>
                    <item>
                     <property name="text">
-                     <string>Fill</string>
+                     <string>Display : Fill</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Square</string>
+                     <string>Selector : Square</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Hue</string>
+                     <string>Selector : Hue</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Gamut</string>
+                     <string>Selector : Gamut</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Hexagon</string>
+                     <string>Selector : Hexagon</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Luma</string>
+                     <string>Selector : Luma</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Dot</string>
+                     <string>Mixer : Dot</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>Mask</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Sample</string>
+                     <string>Mixer : Mask</string>
                     </property>
                    </item>
                   </widget>
@@ -567,7 +562,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="1" colspan="2">
+                 <item row="2" column="2">
                   <widget class="QCheckBox" name="analyse_display">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
@@ -586,6 +581,16 @@
                    </property>
                    <property name="text">
                     <string>Display</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QPushButton" name="analyse_document">
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
+                   <property name="text">
+                    <string>Document</string>
                    </property>
                   </widget>
                  </item>
@@ -648,6 +653,9 @@
                    </property>
                    <property name="decimals">
                     <number>3</number>
+                   </property>
+                  </widget>
+                 </item>
                    </property>
                   </widget>
                  </item>
@@ -899,9 +907,9 @@
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>-215</y>
-               <width>463</width>
-               <height>621</height>
+               <y>0</y>
+               <width>98</width>
+               <height>596</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -964,43 +972,15 @@
                    <property name="spacing">
                     <number>5</number>
                    </property>
-                   <item row="0" column="0">
-                    <widget class="QPushButton" name="chan_kkk">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>16777215</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                     <property name="focusPolicy">
-                      <enum>Qt::NoFocus</enum>
-                     </property>
-                     <property name="text">
-                      <string>Kelvin</string>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                     <property name="flat">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="0">
+                   <item row="0" column="1">
                     <widget class="QWidget" name="group_hex" native="true">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <layout class="QHBoxLayout" name="group_hex_layout">
+                     <layout class="QHBoxLayout" name="group_sele_layout">
                       <property name="spacing">
                        <number>5</number>
                       </property>
@@ -1075,151 +1055,32 @@
                      </layout>
                     </widget>
                    </item>
-                   <item row="0" column="1">
-                    <widget class="QWidget" name="group_sele" native="true">
+                   <item row="0" column="0">
+                    <widget class="QPushButton" name="chan_kkk">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <layout class="QHBoxLayout" name="group_sele_layout">
-                      <property name="spacing">
-                       <number>5</number>
-                      </property>
-                      <property name="leftMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>0</number>
-                      </property>
-                      <item>
-                       <widget class="QPushButton" name="chan_sele">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                        <property name="focusPolicy">
-                         <enum>Qt::NoFocus</enum>
-                        </property>
-                        <property name="text">
-                         <string>Selection</string>
-                        </property>
-                        <property name="checkable">
-                         <bool>true</bool>
-                        </property>
-                        <property name="flat">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QComboBox" name="sele_mode">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>100</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                        <property name="focusPolicy">
-                         <enum>Qt::NoFocus</enum>
-                        </property>
-                        <property name="currentIndex">
-                         <number>6</number>
-                        </property>
-                        <item>
-                         <property name="text">
-                          <string>A</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>RGB</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>CMY</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>CMYK</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>RYB</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>YUV</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>HSV</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>HSL</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>HCY</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>ARD</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>XYZ</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>XYY</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>LAB</string>
-                         </property>
-                        </item>
-                        <item>
-                         <property name="text">
-                          <string>LCH</string>
-                         </property>
-                        </item>
-                       </widget>
-                      </item>
-                     </layout>
+                     <property name="maximumSize">
+                      <size>
+                       <width>16777215</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                     <property name="focusPolicy">
+                      <enum>Qt::NoFocus</enum>
+                     </property>
+                     <property name="text">
+                      <string>Kelvin</string>
+                     </property>
+                     <property name="checkable">
+                      <bool>true</bool>
+                     </property>
+                     <property name="flat">
+                      <bool>true</bool>
+                     </property>
                     </widget>
                    </item>
                   </layout>
