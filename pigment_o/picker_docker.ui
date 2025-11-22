@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <ui version="4.0">
  <class>picker_widget</class>
  <widget class="QWidget" name="picker_widget">
@@ -156,19 +156,19 @@
         </property>
         <layout class="QVBoxLayout" name="history_set_layout">
          <property name="spacing">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="leftMargin">
           <number>0</number>
          </property>
          <property name="topMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <item>
           <widget class="QListWidget" name="history_list">
@@ -248,8 +248,8 @@
         <property name="currentIndex">
          <number>0</number>
         </property>
-        <widget class="QWidget" name="panel_fill"/>
-        <widget class="QWidget" name="panel_square"/>
+        <widget class="QWidget" name="panel_fill" />
+        <widget class="QWidget" name="panel_square" />
         <widget class="QWidget" name="panel_hue">
          <widget class="QWidget" name="panel_huesubpanel" native="true">
           <property name="geometry">
@@ -267,9 +267,9 @@
           </property>
          </widget>
         </widget>
-        <widget class="QWidget" name="panel_gamut"/>
-        <widget class="QWidget" name="panel_hexagon"/>
-        <widget class="QWidget" name="panel_luma"/>
+        <widget class="QWidget" name="panel_gamut" />
+        <widget class="QWidget" name="panel_hexagon" />
+        <widget class="QWidget" name="panel_luma" />
         <widget class="QWidget" name="group_dot">
          <layout class="QHBoxLayout" name="group_dot_layout">
           <property name="spacing">
@@ -357,7 +357,7 @@
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>15</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -387,7 +387,7 @@
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>15</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -417,7 +417,7 @@
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>15</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -447,7 +447,7 @@
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>15</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -477,7 +477,7 @@
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>15</height>
+                 <height>40</height>
                 </size>
                </property>
                <property name="font">
@@ -489,7 +489,7 @@
                 <enum>Qt::NoFocus</enum>
                </property>
                <property name="text">
-                <string/>
+                <string />
                </property>
                <property name="flat">
                 <bool>true</bool>
@@ -1278,13 +1278,13 @@
           <number>0</number>
          </property>
          <property name="topMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="horizontalSpacing">
           <number>2</number>
@@ -1386,16 +1386,16 @@
           <number>0</number>
          </property>
          <property name="topMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="spacing">
-          <number>1</number>
+          <number>0</number>
          </property>
          <item row="0" column="5">
           <widget class="QLabel" name="pin_05">
@@ -1414,11 +1414,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1442,11 +1442,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1470,11 +1470,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1498,11 +1498,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1526,11 +1526,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1554,11 +1554,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1582,11 +1582,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1610,11 +1610,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1638,11 +1638,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1666,11 +1666,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1694,11 +1694,11 @@
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>15</height>
+             <height>40</height>
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -1715,13 +1715,13 @@
           <number>0</number>
          </property>
          <property name="topMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="spacing">
           <number>0</number>
@@ -1730,19 +1730,19 @@
           <widget class="QWidget" name="rgb_slider" native="true">
            <layout class="QVBoxLayout" name="rgb_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="rgb_1_slider" native="true">
@@ -1755,7 +1755,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -1774,7 +1774,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -1793,7 +1793,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -1814,19 +1814,19 @@
            </property>
            <layout class="QVBoxLayout" name="aaa_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="aaa_1_label">
@@ -1839,7 +1839,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -1872,19 +1872,19 @@
            </property>
            <layout class="QVBoxLayout" name="cmyk_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="cmyk_1_label">
@@ -1897,7 +1897,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -1928,7 +1928,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -1959,7 +1959,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -1990,7 +1990,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2026,19 +2026,19 @@
            </property>
            <layout class="QVBoxLayout" name="ard_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="ard_1_label">
@@ -2051,7 +2051,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2076,7 +2076,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2101,7 +2101,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2128,19 +2128,19 @@
            </property>
            <layout class="QVBoxLayout" name="yuv_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="yuv_1_slider" native="true">
@@ -2153,7 +2153,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2172,7 +2172,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2191,7 +2191,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2206,25 +2206,25 @@
           <widget class="QWidget" name="rgb_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="rgb_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="rgb_1_value">
@@ -2234,25 +2234,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="rgb_2_value">
@@ -2262,25 +2259,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="rgb_3_value">
@@ -2290,25 +2284,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -2323,19 +2314,19 @@
            </property>
            <layout class="QVBoxLayout" name="hsv_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="hsv_1_label">
@@ -2348,7 +2339,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>24</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2379,7 +2370,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>24</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2410,7 +2401,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>24</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2443,19 +2434,19 @@
            </property>
            <layout class="QVBoxLayout" name="rgb_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="rgb_1_label">
@@ -2468,7 +2459,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>24</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2499,7 +2490,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>24</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2530,7 +2521,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>24</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2557,19 +2548,19 @@
           <widget class="QWidget" name="xyz_slider" native="true">
            <layout class="QVBoxLayout" name="xyz_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="xyz_1_slider" native="true">
@@ -2582,7 +2573,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2601,7 +2592,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2620,7 +2611,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2635,25 +2626,25 @@
           <widget class="QWidget" name="cmy_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="cmy_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="cmy_1_value">
@@ -2663,25 +2654,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="cmy_2_value">
@@ -2691,25 +2679,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="cmy_3_value">
@@ -2719,25 +2704,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -2746,19 +2728,19 @@
           <widget class="QWidget" name="lab_slider" native="true">
            <layout class="QVBoxLayout" name="lab_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="lab_1_slider" native="true">
@@ -2771,7 +2753,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2790,7 +2772,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2809,7 +2791,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2824,25 +2806,25 @@
           <widget class="QWidget" name="xyz_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="xyz_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="xyz_1_value">
@@ -2852,25 +2834,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="xyz_2_value">
@@ -2880,25 +2859,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="xyz_3_value">
@@ -2908,25 +2884,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -2941,19 +2914,19 @@
            </property>
            <layout class="QVBoxLayout" name="xyy_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="xyy_1_label">
@@ -2966,7 +2939,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -2991,7 +2964,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3016,7 +2989,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3037,19 +3010,19 @@
           <widget class="QWidget" name="hsv_slider" native="true">
            <layout class="QVBoxLayout" name="hsv_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="hsv_1_slider" native="true">
@@ -3062,7 +3035,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3081,7 +3054,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3100,7 +3073,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3115,19 +3088,19 @@
           <widget class="QWidget" name="xyy_slider" native="true">
            <layout class="QVBoxLayout" name="xyy_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="xyy_1_slider" native="true">
@@ -3140,7 +3113,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3159,7 +3132,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3178,7 +3151,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3193,25 +3166,25 @@
           <widget class="QWidget" name="hsv_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="hsv_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="hsv_1_value">
@@ -3221,25 +3194,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="hsv_2_value">
@@ -3249,25 +3219,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="hsv_3_value">
@@ -3277,25 +3244,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -3304,25 +3268,25 @@
           <widget class="QWidget" name="ard_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="ard_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="ard_1_value">
@@ -3332,22 +3296,19 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="ard_2_value">
@@ -3357,22 +3318,19 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="ard_3_value">
@@ -3382,22 +3340,19 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -3412,19 +3367,19 @@
            </property>
            <layout class="QVBoxLayout" name="lab_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="lab_1_label">
@@ -3437,7 +3392,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3462,7 +3417,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3487,7 +3442,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3508,25 +3463,25 @@
           <widget class="QWidget" name="kkk_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="kkk_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="kkk_1_value">
@@ -3536,20 +3491,8 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="suffix">
                <string> K</string>
@@ -3569,7 +3512,16 @@
               <property name="value">
                <double>6504.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -3578,25 +3530,25 @@
           <widget class="QWidget" name="xyy_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="xyy_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="xyy_1_value">
@@ -3606,25 +3558,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="xyy_2_value">
@@ -3634,25 +3583,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="xyy_3_value">
@@ -3662,25 +3608,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -3689,25 +3632,25 @@
           <widget class="QWidget" name="aaa_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="aaa_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="aaa_1_value">
@@ -3717,25 +3660,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -3744,25 +3684,25 @@
           <widget class="QWidget" name="lab_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="lab_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="lab_1_value">
@@ -3772,25 +3712,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="lab_2_value">
@@ -3800,25 +3737,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="lab_3_value">
@@ -3828,25 +3762,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -3861,19 +3792,19 @@
            </property>
            <layout class="QVBoxLayout" name="cmy_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="cmy_1_label">
@@ -3886,7 +3817,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3917,7 +3848,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3948,7 +3879,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -3981,19 +3912,19 @@
            </property>
            <layout class="QVBoxLayout" name="hsl_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="hsl_1_label">
@@ -4006,7 +3937,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4037,7 +3968,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4068,7 +3999,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4101,19 +4032,19 @@
            </property>
            <layout class="QVBoxLayout" name="ryb_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="ryb_1_label">
@@ -4126,7 +4057,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4157,7 +4088,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4188,7 +4119,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4215,19 +4146,19 @@
           <widget class="QWidget" name="cmyk_slider" native="true">
            <layout class="QVBoxLayout" name="cmyk_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="cmyk_1_slider" native="true">
@@ -4240,7 +4171,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4259,7 +4190,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4278,7 +4209,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4297,7 +4228,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4312,19 +4243,19 @@
           <widget class="QWidget" name="ard_slider" native="true">
            <layout class="QVBoxLayout" name="ard_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="ard_1_slider" native="true">
@@ -4337,7 +4268,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
              </widget>
@@ -4353,7 +4284,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
              </widget>
@@ -4369,7 +4300,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
              </widget>
@@ -4381,19 +4312,19 @@
           <widget class="QWidget" name="hsl_slider" native="true">
            <layout class="QVBoxLayout" name="hsl_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="hsl_1_slider" native="true">
@@ -4406,7 +4337,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4425,7 +4356,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4444,7 +4375,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4459,25 +4390,25 @@
           <widget class="QWidget" name="lch_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="lch_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="lch_1_value">
@@ -4489,17 +4420,14 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>100</width>
-                <height>15</height>
+                <width>80</width>
+                <height>20</height>
                </size>
               </property>
-              <property name="frame">
-               <bool>false</bool>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="lch_2_value">
@@ -4511,17 +4439,14 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>100</width>
-                <height>15</height>
+                <width>80</width>
+                <height>20</height>
                </size>
               </property>
-              <property name="frame">
-               <bool>false</bool>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="lch_3_value">
@@ -4533,17 +4458,14 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>100</width>
-                <height>15</height>
+                <width>80</width>
+                <height>20</height>
                </size>
               </property>
-              <property name="frame">
-               <bool>false</bool>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -4552,25 +4474,25 @@
           <widget class="QWidget" name="yuv_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="yuv_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="yuv_1_value">
@@ -4580,25 +4502,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="yuv_2_value">
@@ -4608,25 +4527,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="yuv_3_value">
@@ -4636,25 +4552,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -4663,19 +4576,19 @@
           <widget class="QWidget" name="aaa_slider" native="true">
            <layout class="QVBoxLayout" name="aaa_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="aaa_1_slider" native="true">
@@ -4688,7 +4601,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4709,19 +4622,19 @@
            </property>
            <layout class="QVBoxLayout" name="xyz_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="xyz_1_label">
@@ -4734,7 +4647,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4759,7 +4672,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4784,7 +4697,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4811,19 +4724,19 @@
            </property>
            <layout class="QVBoxLayout" name="hcy_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="hcy_1_label">
@@ -4836,7 +4749,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4867,7 +4780,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4898,7 +4811,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -4925,19 +4838,19 @@
           <widget class="QWidget" name="lch_slider" native="true">
            <layout class="QVBoxLayout" name="lch_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="lch_1_slider" native="true">
@@ -4950,7 +4863,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
              </widget>
@@ -4966,7 +4879,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
              </widget>
@@ -4982,7 +4895,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
              </widget>
@@ -4994,19 +4907,19 @@
           <widget class="QWidget" name="cmy_slider" native="true">
            <layout class="QVBoxLayout" name="cmy_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="cmy_1_slider" native="true">
@@ -5019,7 +4932,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5038,7 +4951,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5057,7 +4970,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5072,25 +4985,25 @@
           <widget class="QWidget" name="cmyk_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="cmyk_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="cmyk_1_value">
@@ -5100,25 +5013,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="cmyk_2_value">
@@ -5128,25 +5038,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="cmyk_3_value">
@@ -5156,25 +5063,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="cmyk_4_value">
@@ -5184,25 +5088,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -5217,19 +5118,19 @@
            </property>
            <layout class="QVBoxLayout" name="lch_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="lch_1_label">
@@ -5242,7 +5143,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="text">
@@ -5267,7 +5168,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="text">
@@ -5292,7 +5193,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="text">
@@ -5313,19 +5214,19 @@
           <widget class="QWidget" name="ryb_slider" native="true">
            <layout class="QVBoxLayout" name="ryb_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="ryb_1_slider" native="true">
@@ -5338,7 +5239,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5357,7 +5258,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5376,7 +5277,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5391,25 +5292,25 @@
           <widget class="QWidget" name="hcy_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="hcy_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="hcy_1_value">
@@ -5419,25 +5320,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="hcy_2_value">
@@ -5447,25 +5345,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="hcy_3_value">
@@ -5475,25 +5370,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -5502,25 +5394,25 @@
           <widget class="QWidget" name="hsl_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="hsl_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="hsl_1_value">
@@ -5530,25 +5422,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="hsl_2_value">
@@ -5558,25 +5447,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="hsl_3_value">
@@ -5586,25 +5472,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -5613,19 +5496,19 @@
           <widget class="QWidget" name="hcy_slider" native="true">
            <layout class="QVBoxLayout" name="hcy_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="hcy_1_slider" native="true">
@@ -5638,7 +5521,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5657,7 +5540,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5676,7 +5559,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5697,19 +5580,19 @@
            </property>
            <layout class="QVBoxLayout" name="yuv_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="yuv_1_label">
@@ -5722,7 +5605,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5753,7 +5636,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5784,7 +5667,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5811,25 +5694,25 @@
           <widget class="QWidget" name="ryb_value" native="true">
            <property name="maximumSize">
             <size>
-             <width>100</width>
+             <width>80</width>
              <height>16777215</height>
             </size>
            </property>
            <layout class="QVBoxLayout" name="ryb_value_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QDoubleSpinBox" name="ryb_1_value">
@@ -5839,25 +5722,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="ryb_2_value">
@@ -5867,25 +5747,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
             <item>
              <widget class="QDoubleSpinBox" name="ryb_3_value">
@@ -5895,25 +5772,22 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>15</height>
-               </size>
-              </property>
               <property name="focusPolicy">
                <enum>Qt::WheelFocus</enum>
-              </property>
-              <property name="frame">
-               <bool>false</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
               </property>
               <property name="maximum">
                <double>100.000000000000000</double>
               </property>
-             </widget>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="buttonSymbols">
+               <enum>QAbstractSpinBox::UpDownArrows</enum>
+              </property>
+             <property name="frame"><bool>false</bool></property><property name="alignment"><set>Qt::AlignCenter</set></property></widget>
             </item>
            </layout>
           </widget>
@@ -5928,19 +5802,19 @@
            </property>
            <layout class="QVBoxLayout" name="kkk_label_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QPushButton" name="kkk_1_label">
@@ -5953,7 +5827,7 @@
               <property name="maximumSize">
                <size>
                 <width>20</width>
-                <height>15</height>
+                <height>40</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -5983,19 +5857,19 @@
           <widget class="QWidget" name="kkk_slider" native="true">
            <layout class="QVBoxLayout" name="kkk_slider_layout">
             <property name="spacing">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
             <property name="topMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
              <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>1</number>
+             <number>0</number>
             </property>
             <item>
              <widget class="QWidget" name="kkk_1_slider" native="true">
@@ -6008,7 +5882,7 @@
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>15</height>
+                <height>20</height>
                </size>
               </property>
               <property name="focusPolicy">
@@ -6077,13 +5951,13 @@
           <number>2</number>
          </property>
          <property name="topMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>2</number>
          </property>
          <property name="bottomMargin">
-          <number>1</number>
+          <number>0</number>
          </property>
          <item>
           <widget class="QPushButton" name="mode">
@@ -6109,7 +5983,7 @@
             <enum>Qt::NoFocus</enum>
            </property>
            <property name="text">
-            <string>▼</string>
+            <string />
            </property>
           </widget>
          </item>
@@ -6164,7 +6038,7 @@
                <enum>Qt::NoFocus</enum>
               </property>
               <property name="text">
-               <string/>
+               <string />
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -6237,7 +6111,7 @@
                <number>0</number>
               </property>
               <property name="text">
-               <string/>
+               <string />
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -6305,7 +6179,7 @@
             <enum>Qt::NoFocus</enum>
            </property>
            <property name="text">
-            <string/>
+            <string />
            </property>
            <property name="flat">
             <bool>true</bool>
@@ -6320,6 +6194,6 @@
    </item>
   </layout>
  </widget>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

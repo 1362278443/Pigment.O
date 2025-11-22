@@ -1432,12 +1432,95 @@ class Picker_Docker( DockWidget ):
         self.layout.settings.setToolTip( "Settings" )
 
         # Style Sheets Layout
-        self.layout.panel_fill.setStyleSheet( "#panel_fill{background-color: rgba( 0, 0, 0, 50 );}" )
-        self.layout.panel_square.setStyleSheet( "#panel_square{background-color: rgba( 0, 0, 0, 50 );}" )
-        self.layout.panel_hue.setStyleSheet( "#panel_hue{background-color: rgba( 0, 0, 0, 50 );}" )
-        self.layout.panel_gamut.setStyleSheet( "#panel_gamut{background-color: rgba( 0, 0, 0, 50 );}" )
-        self.layout.panel_hexagon.setStyleSheet( "#panel_hexagon{background-color: rgba( 0, 0, 0, 50 );}" )
-        self.layout.panel_dot.setStyleSheet( "#panel_dot{background-color: rgba( 0, 0, 0, 50 );}" )
+        # Modern Dark Theme
+        style_sheet_panel = """
+            #{name} {{
+                background-color: #232323; 
+                border-radius: 10px;
+                border: 1px solid #333333;
+            }}
+        """
+        self.layout.panel_fill.setStyleSheet( style_sheet_panel.format(name="panel_fill") )
+        self.layout.panel_square.setStyleSheet( style_sheet_panel.format(name="panel_square") )
+        self.layout.panel_hue.setStyleSheet( style_sheet_panel.format(name="panel_hue") )
+        self.layout.panel_gamut.setStyleSheet( style_sheet_panel.format(name="panel_gamut") )
+        self.layout.panel_hexagon.setStyleSheet( style_sheet_panel.format(name="panel_hexagon") )
+        self.layout.panel_dot.setStyleSheet( style_sheet_panel.format(name="panel_dot") )
+
+        # Global Styles for Controls
+        self.setStyleSheet("""  
+            QLineEdit {
+                background-color: rgba(0, 0, 0, 50);
+                border: 1px solid rgba(255, 255, 255, 20);
+                border-radius: 4px;
+                color: #e0e0e0;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            QLabel {
+                color: #aaaaaa;
+                font-weight: bold;
+            }
+        """)
+        
+        # Increase spacing for channel sliders
+        self.layout.channel_set_layout.setSpacing(0)
+        self.layout.channel_set_layout.setContentsMargins(0, 5, 0, 0)
+        
+        # Apply to individual channel group layouts
+        channel_layouts = [
+            self.layout.aaa_slider_layout,
+            self.layout.rgb_slider_layout,
+            self.layout.cmy_slider_layout,
+            self.layout.cmyk_slider_layout,
+            self.layout.ryb_slider_layout,
+            self.layout.yuv_slider_layout,
+            self.layout.hsv_slider_layout,
+            self.layout.hsl_slider_layout,
+            self.layout.hcy_slider_layout,
+            self.layout.ard_slider_layout,
+            self.layout.xyz_slider_layout,
+            self.layout.xyy_slider_layout,
+            self.layout.lab_slider_layout,
+            self.layout.lch_slider_layout,
+            self.layout.kkk_slider_layout
+        ]
+        for layout in channel_layouts:
+            try: 
+                layout.setSpacing(2)
+                layout.setContentsMargins(0, 0, 0, 0)
+            except: 
+                pass
+
+        # Set decimals to 0 for all value spinboxes
+        value_widgets = [
+            self.layout.aaa_1_value,
+            self.layout.rgb_1_value, self.layout.rgb_2_value, self.layout.rgb_3_value,
+            self.layout.cmy_1_value, self.layout.cmy_2_value, self.layout.cmy_3_value,
+            self.layout.cmyk_1_value, self.layout.cmyk_2_value, self.layout.cmyk_3_value, self.layout.cmyk_4_value,
+            self.layout.ryb_1_value, self.layout.ryb_2_value, self.layout.ryb_3_value,
+            self.layout.yuv_1_value, self.layout.yuv_2_value, self.layout.yuv_3_value,
+            self.layout.hsv_1_value, self.layout.hsv_2_value, self.layout.hsv_3_value,
+            self.layout.hsl_1_value, self.layout.hsl_2_value, self.layout.hsl_3_value,
+            self.layout.hcy_1_value, self.layout.hcy_2_value, self.layout.hcy_3_value,
+            self.layout.ard_1_value, self.layout.ard_2_value, self.layout.ard_3_value,
+            self.layout.xyz_1_value, self.layout.xyz_2_value, self.layout.xyz_3_value,
+            self.layout.xyy_1_value, self.layout.xyy_2_value, self.layout.xyy_3_value,
+            self.layout.lab_1_value, self.layout.lab_2_value, self.layout.lab_3_value,
+            self.layout.lch_1_value, self.layout.lch_2_value, self.layout.lch_3_value,
+            self.layout.kkk_1_value
+        ]
+        for widget in value_widgets:
+            try: 
+                widget.setDecimals(0)
+            except: 
+                pass
+            try: 
+                layout.setSpacing(0)
+                layout.setContentsMargins(0, 0, 0, 0)
+            except: pass
+
         # Style Sheets Dialog
         self.dialog.scroll_area_contents_option.setStyleSheet( "#scroll_area_contents_option{background-color: rgba( 0, 0, 0, 20 );}" )
         self.dialog.scroll_area_contents_color.setStyleSheet( "#scroll_area_contents_color{background-color: rgba( 0, 0, 0, 20 );}" )
@@ -2190,9 +2273,9 @@ class Picker_Docker( DockWidget ):
             self.layout.mixer_set_layout.removeWidget( self.mixer_widget[i]["r"] )
     def Geo_Square( self, square, r ):
         # Dimensions
-        square.setMinimumHeight( 15 )
-        square.setMaximumHeight( 20 )
-        square.setMaximumWidth( 20 )
+        square.setMinimumHeight( 40 )
+        square.setMaximumHeight( 40 )
+        square.setMaximumWidth( 40 )
         # Size Policy
         square.setSizePolicy( QSizePolicy.Fixed, QSizePolicy.Preferred )
         # Return
@@ -2200,10 +2283,10 @@ class Picker_Docker( DockWidget ):
     def Geo_Slider( self, slider, r ):
         # Geometry
         width = self.layout.mixer_m_000.width()
-        slider.setGeometry( 0, 0, width, 20)
+        slider.setGeometry( 0, 0, width, 40)
         # Dimensions
-        slider.setMinimumHeight( 15 )
-        slider.setMaximumHeight( 20 )
+        slider.setMinimumHeight( 40 )
+        slider.setMaximumHeight( 40 )
         # Size Policy
         slider.setSizePolicy( QSizePolicy.Ignored, QSizePolicy.Preferred )
         # Return
@@ -2930,9 +3013,12 @@ class Picker_Docker( DockWidget ):
         self.disp_labels = boolean
         if boolean == True:
             l = 20
-            s = 1
         else:
             l = 0
+
+        if self.disp_labels or self.disp_values:
+            s = 5
+        else:
             s = 0
 
         self.layout.aaa_label.setMaximumWidth( l )
@@ -2962,10 +3048,13 @@ class Picker_Docker( DockWidget ):
         # Variables
         self.disp_values = boolean
         if boolean == True:
-            v = 100
-            s = 1
+            v = 70
         else:
             v = 0
+
+        if self.disp_labels or self.disp_values:
+            s = 5
+        else:
             s = 0
 
         self.layout.aaa_value.setMaximumWidth( v )

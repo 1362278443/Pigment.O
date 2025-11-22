@@ -1646,22 +1646,23 @@ class Panel_HueCircle( QWidget ):
                 px, py = self.geometry.Trig_2D_Angle_Circle( self.w2, self.h2, self.side, radius - margin, self.analog[i] - hue_a )
                 div.append( [ px, py ] )
 
-        # Dark Border
-        painter.setPen( QtCore.Qt.NoPen )
-        painter.setBrush( QBrush( self.color_theme ) )
-        painter.drawPath( circle_02 )
-        # Dark Lines Color Reference
-        painter.setPen( QPen( self.color_theme, line_width, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
-        painter.setBrush( QtCore.Qt.NoBrush )
-        if self.wheel_mode == "DIGITAL":
-            for i in range( 0, len( self.digital ) ):
-                painter.drawLine( int( div[i][0] ), int( div[i][1] ), int( self.w2 ), int( self.h2 ) )
-        if self.wheel_mode == "ANALOG":
-            for i in range( 0, len( self.analog ) ):
-                painter.drawLine( int( div[i][0] ), int( div[i][1] ), int( self.w2 ), int( self.h2 ) )
+        # Dark Border - REMOVED for flat design
+        # painter.setPen( QtCore.Qt.NoPen )
+        # painter.setBrush( QBrush( self.color_theme ) )
+        # painter.drawPath( circle_02 )
+        
+        # Dark Lines Color Reference - REMOVED for cleaner look
+        # painter.setPen( QPen( QColor(0,0,0,50), 1, Qt.SolidLine ) )
+        # painter.setBrush( QtCore.Qt.NoBrush )
+        # if self.wheel_mode == "DIGITAL":
+        #     for i in range( 0, len( self.digital ) ):
+        #         painter.drawLine( int( div[i][0] ), int( div[i][1] ), int( self.w2 ), int( self.h2 ) )
+        # if self.wheel_mode == "ANALOG":
+        #     for i in range( 0, len( self.analog ) ):
+        #         painter.drawLine( int( div[i][0] ), int( div[i][1] ), int( self.w2 ), int( self.h2 ) )
 
-        # Light Line
-        painter.setPen( QPen( self.color_1, line_width, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
+        # Light Line - Simplified
+        painter.setPen( QPen( QColor(255,255,255,100), 1, Qt.SolidLine ) )
         painter.setBrush( QtCore.Qt.NoBrush )
         if length > 0:
             line_gray = QPainterPath()
@@ -1713,12 +1714,46 @@ class Panel_HueCircle( QWidget ):
         painter.setBrush( QBrush( hue ) )
         painter.setClipPath( circle_01 )
         painter.drawRect( int( self.px ), int( self.py ), int( self.side ), int( self.side ) )
-        # Dark Line over Hue
-        painter.setPen( QPen( self.color_theme, line_width, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
-        painter.setBrush( QtCore.Qt.NoBrush )
-        painter.setClipPath( circle_01 )
-        for i in range( 0, length ):
-            painter.drawLine( int( circle_points[i][0] ), int( circle_points[i][1] ), int( self.w2 ), int( self.h2 ) )
+        # Dark Line over Hue - REPLACED with Circle Cursor
+        # painter.setPen( QPen( self.color_theme, line_width, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
+        # painter.setBrush( QtCore.Qt.NoBrush )
+        # painter.setClipPath( circle_01 )
+        # for i in range( 0, length ):
+        #     painter.drawLine( int( circle_points[i][0] ), int( circle_points[i][1] ), int( self.w2 ), int( self.h2 ) )
+
+        # Cursor on Hue Ring (Coolorus Style)
+        painter.setClipping( False )
+        cursor_radius_ring = 0.5 - (self.hue_ring_width / 2)
+        cursor_points = []
+        
+        # Recalculate points for cursor center
+        if self.harmony_rule != None:
+            for i in range( 0, len( self.harmony_list ) ):
+                if self.wheel_mode == "DIGITAL":
+                    px, py = self.geometry.Trig_2D_Angle_Circle( self.w2, self.h2, self.side, cursor_radius_ring, self.harmony_list[i][hue_index] * 360 )
+                if self.wheel_mode == "ANALOG":
+                    px, py = self.geometry.Trig_2D_Angle_Circle( self.w2, self.h2, self.side, cursor_radius_ring, ( self.harmony_list[i][hue_index] * 360 ) - hue_a )
+                cursor_points.append( [ px, py ] )
+        else:
+            if self.wheel_mode == "DIGITAL":
+                px, py = self.geometry.Trig_2D_Angle_Circle( self.w2, self.h2, self.side, cursor_radius_ring, self.color[hue_index] * 360 )
+            if self.wheel_mode == "ANALOG":
+                px, py = self.geometry.Trig_2D_Angle_Circle( self.w2, self.h2, self.side, cursor_radius_ring, ( self.color[hue_index] * 360 ) - hue_a )
+            cursor_points.append( [ px, py ] )
+            
+        # Draw Cursors
+        c_rad = 8 # Larger radius
+        for i in range( 0, len(cursor_points) ):
+            # Hollow Circle Style (Ring)
+            painter.setBrush( QtCore.Qt.NoBrush )
+            
+            # Shadow/Outline (Black)
+            painter.setPen( QtGui.QPen( QtGui.QColor(0,0,0,150), 3 ) )
+            painter.drawEllipse( QtCore.QPoint( int(cursor_points[i][0]), int(cursor_points[i][1]) ), c_rad, c_rad )
+            
+            # Main Stroke (White)
+            painter.setPen( QtGui.QPen( QtGui.QColor(255,255,255), 2 ) )
+            painter.drawEllipse( QtCore.QPoint( int(cursor_points[i][0]), int(cursor_points[i][1]) ), c_rad, c_rad )
 
         # Light Gray Borders for Color Ring - 在所有内容绘制完成后的最后步骤
         painter.setClipping( False )  # 完全禁用裁剪
@@ -4275,71 +4310,58 @@ class Channel_Slider( QWidget ):
 
         # Background Style
         painter.setPen( QtCore.Qt.NoPen )
-        painter.setBrush( QBrush( self.color_alpha ) )
-        painter.drawRect( int( 0 ), int( 0 ), int( self.ww ), int( self.hh ) )
+        painter.setBrush( QtGui.QBrush( self.color_alpha ) )
+        # Rounded background - Darker track
+        painter.setBrush( QtGui.QBrush( QtGui.QColor(0, 0, 0, 80) ) )
+        painter.drawRoundedRect( int( 0 ), int( 0 ), int( self.ww ), int( self.hh ), 4, 4 )
 
         # Stops
         painter.setPen( QtCore.Qt.NoPen )
-        painter.setBrush( QBrush( self.color_1 ) )
+        painter.setBrush( QtGui.QBrush( self.color_1 ) )
         if self.stops <= 0 :
-            painter.drawRect( int( 0 ), int( 0 ), int( self.ww ), int( 1 ) )
+            # painter.drawRect( int( 0 ), int( 0 ), int( self.ww ), int( 1 ) )
+            pass
         else:
-            for i in range( 0, self.stops ):
+            for i in range( 1, self.stops ):
                 percent = self.ww * ( i / self.stops )
-                painter.drawRect( int( percent ), int( 0 ), int( 1 ), int( 1 ) )
-            painter.drawRect( int( self.ww * 1 - 1 ), int( 0 ), int( 1 ), int( 1 ) )
+                painter.drawRect( int( percent ), int( 2 ), int( 1 ), int( self.hh - 4 ) ) # Ticks inside track
+            # painter.drawRect( int( self.ww * 1 - 1 ), int( 0 ), int( 1 ), int( 1 ) )
 
         # Draw Colors Gradient
         if self.colors != None:
             try:
                 painter.setPen( QtCore.Qt.NoPen )
-                grad = QLinearGradient( int( 0 ), int( 0 ), int( self.ww ), int( 0 ) )
+                grad = QtGui.QLinearGradient( int( 0 ), int( 0 ), int( self.ww ), int( 0 ) )
 
                 number = len( self.colors )
                 for i in range( 0, number ):
-                    grad.setColorAt( round( i / number, 3 ), QColor( int( self.colors[i][0] * 255 ), int( self.colors[i][1] * 255 ), int( self.colors[i][2] * 255 ), int( self.alpha * 255 ) ) )
+                    grad.setColorAt( round( i / number, 3 ), QtGui.QColor( int( self.colors[i][0] * 255 ), int( self.colors[i][1] * 255 ), int( self.colors[i][2] * 255 ), int( self.alpha * 255 ) ) )
 
-                painter.setBrush( QBrush( grad ) )
-                square = QPolygon( [
-                    QPoint( int( 1 ),  int( 1 ) ),
-                    QPoint( int( w1 ), int( 1 ) ),
-                    QPoint( int( w1 ), int( h1 ) ),
-                    QPoint( int( 1 ),  int( h1 ) ),
-                    ] )
-                painter.drawPolygon( square )
+                painter.setBrush( QtGui.QBrush( grad ) )
+                # Rounded gradient bar - Thicker
+                path = QtGui.QPainterPath()
+                # Fill almost full height, leaving small margin
+                margin = 1
+                path.addRoundedRect( margin, margin, self.ww-margin*2, self.hh-margin*2, 2, 2 )
+                painter.drawPath( path )
             except Exception as e:
                 QtCore.qDebug( f"error = { e }" )
 
-        # Cursor
+        # Cursor - Modern Hollow Rectangle Style
         value = int( self.value )
-        bl = value - 3
-        br = value + 3
-        wl = value - 1
-        wr = value + 1
-        top1 = 0
-        bot1 = self.hh
-        top2 = 1
-        bot2 = self.hh - 1
-        # Black Square
-        painter.setPen( QtCore.Qt.NoPen )
-        painter.setBrush( QBrush( self.color_black ) )
-        black = QPolygon( [
-            QPoint( int( bl ), int( top1 ) ),
-            QPoint( int( bl ), int( bot1 ) ),
-            QPoint( int( br ), int( bot1 ) ),
-            QPoint( int( br ), int( top1 ) ),
-            ] )
-        painter.drawPolygon( black )
-        # White Square
-        painter.setPen( QtCore.Qt.NoPen )
-        painter.setBrush( QBrush( self.color_white ) )
-        white = QPolygon( [
-            QPoint( int( wl ), int( top2 ) ),
-            QPoint( int( wl ), int( bot2 ) ),
-            QPoint( int( wr ), int( bot2 ) ),
-            QPoint( int( wr ), int( top2 ) ),
-            ] )
-        painter.drawPolygon( white )
+        cursor_width = 8
+        cursor_height = self.hh
+        
+        # Draw Hollow Rectangle
+        painter.setBrush( QtCore.Qt.NoBrush )
+        
+        # Shadow/Outline (Black)
+        painter.setPen( QtGui.QPen( QtGui.QColor(0,0,0,150), 3 ) )
+        painter.drawRect( int(value - cursor_width/2), 0, cursor_width, cursor_height )
+        
+        # Main Stroke (White)
+        painter.setPen( QtGui.QPen( QtGui.QColor(255,255,255), 2 ) )
+        painter.drawRect( int(value - cursor_width/2), 0, cursor_width, cursor_height )
 
 class Channel_Selection( QWidget ):
     SIGNAL_VALUE = QtCore.pyqtSignal( dict )
