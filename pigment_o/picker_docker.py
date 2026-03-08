@@ -82,6 +82,7 @@ class Picker_Docker( DockWidget ):
 
         # Construct
         self.User_Interface()
+        self.Fix_Layout_Constraints()
         self.Variables()
         self.Connections()
         self.Modules()
@@ -90,6 +91,58 @@ class Picker_Docker( DockWidget ):
         self.Extension()
         self.Settings()
         self.Plugin_Load()
+
+    def Fix_Layout_Constraints( self ):
+        # Fix text clipping issues by removing maximum height constraints
+        # allowing width to be constrained by the UI file if needed
+        
+        # Labels and ComboBoxes need to expand vertically if needed
+        expand_widgets = (QtWidgets.QLabel, QtWidgets.QComboBox)
+        for widget in self.layout.findChildren(expand_widgets) + self.dialog.findChildren(expand_widgets):
+            widget.setMaximumHeight(16777215)
+
+        # Buttons, SpinBoxes, LineEdits should have a limited height to match sliders/layout
+        # but enough to show text (approx 30px to allow for margins and padding)
+        compact_widgets = (QtWidgets.QPushButton, QtWidgets.QAbstractSpinBox, QtWidgets.QLineEdit)
+        for widget in self.layout.findChildren(compact_widgets) + self.dialog.findChildren(compact_widgets):
+            widget.setMaximumHeight(30)
+        
+        # Only hide decimals for inputs in the Main Docker (Channels), not Settings (Hue Ring)
+        for widget in self.layout.findChildren(QtWidgets.QDoubleSpinBox):
+            widget.setDecimals(0)
+        
+        # Fix History List height to match other inputs and allow for padding
+        self.layout.history_list.setMaximumHeight(30)
+
+        # Fix Channel Set Layouts (RGB, HSV, etc.)
+        # User wants controlled row spacing and height
+        row_height = 20
+        row_spacing = 4
+        
+        # Find all container widgets in channel_set that have a QVBoxLayout
+        # These are the columns (Labels, Sliders, Values)
+        # We iterate through direct children of channel_set's layout to find the containers
+        # channel_set uses a QGridLayout
+        channel_layout = self.layout.channel_set.layout()
+        if channel_layout:
+            for i in range(channel_layout.count()):
+                item = channel_layout.itemAt(i)
+                container = item.widget()
+                if container:
+                    layout = container.layout()
+                    if isinstance(layout, QtWidgets.QVBoxLayout):
+                        layout.setSpacing(row_spacing)
+                        layout.setContentsMargins(0, 0, 0, 0)
+                        
+                        # Set fixed height for items in this layout to ensure alignment
+                        for j in range(layout.count()):
+                            sub_item = layout.itemAt(j)
+                            widget = sub_item.widget()
+                            if widget:
+                                widget.setFixedHeight(row_height)
+                                # Remove padding for buttons to prevent text clipping in small rows
+                                if isinstance(widget, QtWidgets.QPushButton):
+                                    widget.setStyleSheet("padding: 0px; margin: 0px;")
 
     def User_Interface( self ):
         # Window
@@ -1407,6 +1460,48 @@ class Picker_Docker( DockWidget ):
 
         #endregion
     def Style( self ):
+        # Make buttons in Settings dialog flat to integrate with background
+        # Use Event Filter to toggle between Transparent (Default) and Theme Style (Hover/Pressed/Checked)
+        
+        # Settings Dialog Buttons
+        for button in self.dialog.findChildren(QtWidgets.QPushButton):
+            button.setFlat(True)
+            button.setProperty("is_flat", True)
+            button.installEventFilter(self)
+            button.setStyleSheet("background: transparent; border: 1px solid transparent; padding: 0px; margin: 0px;")
+            if button.isCheckable():
+                button.toggled.connect(lambda checked, b=button: self.Refresh_Flat_Style(b))
+        
+        # Main Docker Channel Labels
+        for button in self.layout.findChildren(QtWidgets.QPushButton):
+            if "_label" in button.objectName():
+                button.setFlat(True)
+                button.setProperty("is_flat", True)
+                button.installEventFilter(self)
+                button.setStyleSheet("background: transparent; border: 1px solid transparent; padding: 0px; margin: 0px;")
+                if button.isCheckable():
+                    button.toggled.connect(lambda checked, b=button: self.Refresh_Flat_Style(b))
+
+    def Refresh_Flat_Style(self, button):
+        if button.isChecked() or button.underMouse():
+            # When active, remove stylesheet to use theme, but enforce 0 padding to prevent clipping
+            button.setStyleSheet("padding: 0px; margin: 0px;")
+        else:
+            # When inactive, transparent background, 0 padding
+            button.setStyleSheet("background: transparent; border: 1px solid transparent; padding: 0px; margin: 0px;")
+
+        # Fix History List styling to prevent clipping
+
+        # Fix History List styling to prevent clipping
+        # Remove padding/margins that might be added by the theme
+        self.layout.history_list.setIconSize(QtCore.QSize(15, 20))
+        self.layout.history_list.setStyleSheet("""
+            QListWidget { border: none; background: transparent; outline: none; }
+            QListWidget::item { padding: 0px; margin: 0px; border: none; }
+            QListWidget::item:selected { background: transparent; border: none; outline: none; }
+            QListWidget::item:hover { background: transparent; border: none; outline: none; }
+        """)
+
         # Icons
         self.qicon_on = Krita.instance().icon( "showColoring" )
         self.qicon_write = Krita.instance().icon( "media-playback-start" )
@@ -1417,7 +1512,7 @@ class Picker_Docker( DockWidget ):
         qicon_settings = Krita.instance().icon( "settings-button" )
         self.qicon_lock_layout = Krita.instance().icon( "layer-locked" )
         self.qicon_lock_dialog = Krita.instance().icon( "docker_lock_b" )
-        self.qicon_none = QIcon()
+        self.qicon_none = QtGui.QIcon()
 
         # Widgets
         self.layout.dot_swap.setIcon( qicon_swap )
@@ -1432,103 +1527,34 @@ class Picker_Docker( DockWidget ):
         self.layout.settings.setToolTip( "Settings" )
 
         # Style Sheets Layout
-        # Modern Dark Theme
+        # Dynamic Theme
+        palette = QtWidgets.QApplication.palette()
+        bg_color = palette.color(QtGui.QPalette.Window)
+        panel_color = bg_color.darker(130).name()
+        border_color = palette.color(QtGui.QPalette.Mid).name()
+
         style_sheet_panel = """
             #{name} {{
-                background-color: #232323; 
+                background-color: {color}; 
                 border-radius: 10px;
-                border: 1px solid #333333;
+                border: 1px solid {border};
             }}
         """
-        self.layout.panel_fill.setStyleSheet( style_sheet_panel.format(name="panel_fill") )
-        self.layout.panel_square.setStyleSheet( style_sheet_panel.format(name="panel_square") )
-        self.layout.panel_hue.setStyleSheet( style_sheet_panel.format(name="panel_hue") )
-        self.layout.panel_gamut.setStyleSheet( style_sheet_panel.format(name="panel_gamut") )
-        self.layout.panel_hexagon.setStyleSheet( style_sheet_panel.format(name="panel_hexagon") )
-        self.layout.panel_dot.setStyleSheet( style_sheet_panel.format(name="panel_dot") )
-
-        # Global Styles for Controls
-        self.setStyleSheet("""  
-            QLineEdit {
-                background-color: rgba(0, 0, 0, 50);
-                border: 1px solid rgba(255, 255, 255, 20);
-                border-radius: 4px;
-                color: #e0e0e0;
-                padding: 0px;
-                margin: 0px;
-            }
-
-            QLabel {
-                color: #aaaaaa;
-                font-weight: bold;
-            }
-        """)
+        self.layout.panel_fill.setStyleSheet( style_sheet_panel.format(name="panel_fill", color=panel_color, border=border_color) )
+        self.layout.panel_square.setStyleSheet( style_sheet_panel.format(name="panel_square", color=panel_color, border=border_color) )
+        self.layout.panel_hue.setStyleSheet( style_sheet_panel.format(name="panel_hue", color=panel_color, border=border_color) )
+        self.layout.panel_gamut.setStyleSheet( style_sheet_panel.format(name="panel_gamut", color=panel_color, border=border_color) )
+        self.layout.panel_hexagon.setStyleSheet( style_sheet_panel.format(name="panel_hexagon", color=panel_color, border=border_color) )
+        self.layout.panel_dot.setStyleSheet( style_sheet_panel.format(name="panel_dot", color=panel_color, border=border_color) )
         
-        # Increase spacing for channel sliders
-        self.layout.channel_set_layout.setSpacing(0)
-        self.layout.channel_set_layout.setContentsMargins(0, 5, 0, 0)
-        
-        # Apply to individual channel group layouts
-        channel_layouts = [
-            self.layout.aaa_slider_layout,
-            self.layout.rgb_slider_layout,
-            self.layout.cmy_slider_layout,
-            self.layout.cmyk_slider_layout,
-            self.layout.ryb_slider_layout,
-            self.layout.yuv_slider_layout,
-            self.layout.hsv_slider_layout,
-            self.layout.hsl_slider_layout,
-            self.layout.hcy_slider_layout,
-            self.layout.ard_slider_layout,
-            self.layout.xyz_slider_layout,
-            self.layout.xyy_slider_layout,
-            self.layout.lab_slider_layout,
-            self.layout.lch_slider_layout,
-            self.layout.kkk_slider_layout
-        ]
-        for layout in channel_layouts:
-            try: 
-                layout.setSpacing(2)
-                layout.setContentsMargins(0, 0, 0, 0)
-            except: 
-                pass
-
-        # Set decimals to 0 for all value spinboxes
-        value_widgets = [
-            self.layout.aaa_1_value,
-            self.layout.rgb_1_value, self.layout.rgb_2_value, self.layout.rgb_3_value,
-            self.layout.cmy_1_value, self.layout.cmy_2_value, self.layout.cmy_3_value,
-            self.layout.cmyk_1_value, self.layout.cmyk_2_value, self.layout.cmyk_3_value, self.layout.cmyk_4_value,
-            self.layout.ryb_1_value, self.layout.ryb_2_value, self.layout.ryb_3_value,
-            self.layout.yuv_1_value, self.layout.yuv_2_value, self.layout.yuv_3_value,
-            self.layout.hsv_1_value, self.layout.hsv_2_value, self.layout.hsv_3_value,
-            self.layout.hsl_1_value, self.layout.hsl_2_value, self.layout.hsl_3_value,
-            self.layout.hcy_1_value, self.layout.hcy_2_value, self.layout.hcy_3_value,
-            self.layout.ard_1_value, self.layout.ard_2_value, self.layout.ard_3_value,
-            self.layout.xyz_1_value, self.layout.xyz_2_value, self.layout.xyz_3_value,
-            self.layout.xyy_1_value, self.layout.xyy_2_value, self.layout.xyy_3_value,
-            self.layout.lab_1_value, self.layout.lab_2_value, self.layout.lab_3_value,
-            self.layout.lch_1_value, self.layout.lch_2_value, self.layout.lch_3_value,
-            self.layout.kkk_1_value
-        ]
-        for widget in value_widgets:
-            try: 
-                widget.setDecimals(0)
-            except: 
-                pass
-            try: 
-                layout.setSpacing(0)
-                layout.setContentsMargins(0, 0, 0, 0)
-            except: pass
-
         # Style Sheets Dialog
         self.dialog.scroll_area_contents_option.setStyleSheet( "#scroll_area_contents_option{background-color: rgba( 0, 0, 0, 20 );}" )
         self.dialog.scroll_area_contents_color.setStyleSheet( "#scroll_area_contents_color{background-color: rgba( 0, 0, 0, 20 );}" )
         self.dialog.scroll_area_contents_system.setStyleSheet( "#scroll_area_contents_system{background-color: rgba( 0, 0, 0, 20 );}" )
 
         # Combobox
-        qpixmap_fill = QPixmap( 100, 100 )
-        qpixmap_fill.fill( QColor( "#000000" ) )
+        qpixmap_fill = QtGui.QPixmap( 100, 100 )
+        qpixmap_fill.fill( QtGui.QColor( "#000000" ) )
 
         # Icons
         icon_path =     os.path.join( self.directory_plugin, "ICON" )
@@ -1542,15 +1568,15 @@ class Picker_Docker( DockWidget ):
         path_sample =   os.path.join( icon_path, "SAMPLE.png" )
 
         self.dialog.panel_index.blockSignals( True )
-        self.dialog.panel_index.setItemIcon( 0, QIcon( qpixmap_fill ) )
-        self.dialog.panel_index.setItemIcon( 1, QIcon( path_square ) )
-        self.dialog.panel_index.setItemIcon( 2, QIcon( path_hue ) )
-        self.dialog.panel_index.setItemIcon( 3, QIcon( path_gamut ) )
-        self.dialog.panel_index.setItemIcon( 4, QIcon( path_hexagon ) )
-        self.dialog.panel_index.setItemIcon( 5, QIcon( path_luma ) )
-        self.dialog.panel_index.setItemIcon( 6, QIcon( path_dot ) )
-        self.dialog.panel_index.setItemIcon( 7, QIcon( path_mask ) )
-        self.dialog.panel_index.setItemIcon( 8, QIcon( path_sample ) )
+        self.dialog.panel_index.setItemIcon( 0, QtGui.QIcon( qpixmap_fill ) )
+        self.dialog.panel_index.setItemIcon( 1, QtGui.QIcon( path_square ) )
+        self.dialog.panel_index.setItemIcon( 2, QtGui.QIcon( path_hue ) )
+        self.dialog.panel_index.setItemIcon( 3, QtGui.QIcon( path_gamut ) )
+        self.dialog.panel_index.setItemIcon( 4, QtGui.QIcon( path_hexagon ) )
+        self.dialog.panel_index.setItemIcon( 5, QtGui.QIcon( path_luma ) )
+        self.dialog.panel_index.setItemIcon( 6, QtGui.QIcon( path_dot ) )
+        self.dialog.panel_index.setItemIcon( 7, QtGui.QIcon( path_mask ) )
+        self.dialog.panel_index.setItemIcon( 8, QtGui.QIcon( path_sample ) )
         self.dialog.panel_index.blockSignals( False )
     def Timer( self ):
         #region QTimer
@@ -2084,7 +2110,7 @@ class Picker_Docker( DockWidget ):
         if qimage.isNull() == False:
             # Scale
             size = 200
-            qimage = qimage.scaled( size, size, Qt.KeepAspectRatio, Qt.FastTransformation )
+            qimage = qimage.scaled( size, size, QtCore.Qt.KeepAspectRatio, QtCore.Qt.FastTransformation )
 
             # Variables
             width = qimage.width()
@@ -2098,7 +2124,7 @@ class Picker_Docker( DockWidget ):
                 if ( h1 % 5 == 0 or h1 == height ):
                     percent = round( h1 / height, 4 )
                     self.color_header.Set_Progress( percent )
-                    QApplication.processEvents()
+                    QtWidgets.QApplication.processEvents()
                 # Rox of Pixels
                 for w in range( 0, width ):
                     # RGB
@@ -7518,6 +7544,9 @@ class Picker_Docker( DockWidget ):
         # Last Entry
         last_item = self.layout.history_list.item( 0 )
         if last_item == None:
+            # Prevent adding Black (0,0,0) as the first item on startup
+            if red == 0 and green == 0 and blue == 0:
+                return
             self.History_Add( red, green, blue )
         else:
             if ( self.widget_press == False and self.inbound == False ):
@@ -7526,7 +7555,10 @@ class Picker_Docker( DockWidget ):
                 input_green = int( green * 255 )
                 input_blue = int( blue * 255 )
                 # Last Colors
-                last_color = last_item.background().color()
+                last_color = last_item.data( QtCore.Qt.UserRole )
+                if last_color is None:
+                    last_color = QtGui.QColor(0, 0, 0)
+                
                 last_red = int( last_color.red() )
                 last_green = int( last_color.green() )
                 last_blue = int( last_color.blue() )
@@ -7535,20 +7567,24 @@ class Picker_Docker( DockWidget ):
                 if ( ( input_red != last_red ) or ( input_green != last_green ) or ( input_blue != last_blue ) ):
                     self.History_Add( red, green, blue )
     def History_Add( self, red, green, blue ):
-        color = QColor( int(red * 255), int(green * 255), int(blue * 255) )
-        pixmap = QPixmap( 10,20 )
+        color = QtGui.QColor( int(red * 255), int(green * 255), int(blue * 255) )
+        pixmap = QtGui.QPixmap( 15, 20 )
         pixmap.fill( color )
-        item = QListWidgetItem()
-        item.setIcon( QIcon( pixmap ) )
-        item.setBackground( QBrush( color ) )
+        item = QtWidgets.QListWidgetItem()
+        item.setIcon( QtGui.QIcon( pixmap ) )
+        # Store color in UserRole to avoid visual artifacts with background
+        item.setData( QtCore.Qt.UserRole, color )
+        item.setToolTip( color.name() )
         self.layout.history_list.insertItem( 0, item )
     def History_APPLY( self ):
         current = self.layout.history_list.currentItem()
-        color = current.background().color()
-        red = color.red() / 255
-        green = color.green() / 255
-        blue = color.blue() / 255
-        self.Pigmento_APPLY( "RGB", red, green, blue, 0, self.cor )
+        if current:
+            color = current.data( QtCore.Qt.UserRole )
+            if color:
+                red = color.red() / 255
+                green = color.green() / 255
+                blue = color.blue() / 255
+                self.Pigmento_APPLY( "RGB", red, green, blue, 0, self.cor )
     def History_CLEAR( self ):
         self.layout.history_list.clear()
 
@@ -7972,6 +8008,15 @@ class Picker_Docker( DockWidget ):
         self.timer_pulse.stop()
 
     def eventFilter( self, source, event ):
+        # Handle Flat Buttons Style
+        if source.property("is_flat"):
+            if event.type() == QtCore.QEvent.Enter:
+                # Enforce 0 padding when hovering to prevent clipping
+                source.setStyleSheet("padding: 0px; margin: 0px;")
+            elif event.type() == QtCore.QEvent.Leave:
+                if not source.isChecked():
+                    source.setStyleSheet("background: transparent; border: 1px solid transparent; padding: 0px; margin: 0px;")
+
         # Panels
         panels = [
             self.layout.panel_set,
@@ -7996,20 +8041,20 @@ class Picker_Docker( DockWidget ):
 
             self.layout.mixer_set,
             ]
-        if ( event.type() == QEvent.Resize and source in panels ):
+        if ( event.type() == QtCore.QEvent.Resize and source in panels ):
             self.Update_Size()
             return True
 
         # History
-        if ( event.type() == QEvent.ContextMenu and source is self.layout.history_list ):
+        if ( event.type() == QtCore.QEvent.ContextMenu and source is self.layout.history_list ):
             self.Menu_Context_History( event )
             return True
 
         # Mode
-        if ( event.type() == QEvent.MouseButtonPress and source is self.layout.mode ):
+        if ( event.type() == QtCore.QEvent.MouseButtonPress and source is self.layout.mode ):
             self.Menu_Mode_Press( event )
             return True
-        if ( event.type() == QEvent.Wheel and source is self.layout.mode ):
+        if ( event.type() == QtCore.QEvent.Wheel and source is self.layout.mode ):
             self.Menu_Mode_Wheel( event )
             return True
 

@@ -54,12 +54,28 @@ class Sampler_Docker( DockWidget ):
 
         # Construct
         self.User_Interface()
+        self.Fix_Layout_Constraints()
         self.Variables()
         self.Connections()
         self.Modules()
         self.Style()
         self.Settings()
         self.Plugin_Load()
+
+    def Fix_Layout_Constraints( self ):
+        # Fix text clipping issues by removing maximum height constraints
+        # allowing width to be constrained by the UI file if needed
+        
+        # Labels and ComboBoxes need to expand vertically if needed
+        expand_widgets = (QtWidgets.QLabel, QtWidgets.QComboBox)
+        for widget in self.layout.findChildren(expand_widgets) + self.dialog.findChildren(expand_widgets):
+            widget.setMaximumHeight(16777215)
+
+        # Buttons, SpinBoxes, LineEdits should have a limited height to match sliders/layout
+        # but enough to show text (approx 25px)
+        compact_widgets = (QtWidgets.QPushButton, QtWidgets.QAbstractSpinBox, QtWidgets.QLineEdit)
+        for widget in self.layout.findChildren(compact_widgets) + self.dialog.findChildren(compact_widgets):
+            widget.setMaximumHeight(25)
 
     def User_Interface( self ):
         # Window
@@ -214,6 +230,10 @@ class Sampler_Docker( DockWidget ):
 
         #endregion
     def Style( self ):
+        # Make buttons in Settings dialog flat to integrate with background
+        for button in self.dialog.findChildren(QtWidgets.QPushButton):
+            button.setFlat(True)
+
         # Variables
         ki = Krita.instance()
         # Icons
