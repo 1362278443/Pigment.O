@@ -177,6 +177,7 @@ class Picker_Docker( DockWidget ):
         # Paths
         mask_set = os.path.join( self.directory_plugin, "MASK" )
         self.mask_set = os.path.join( mask_set, "SPHERE" )
+        self.panel_settings_loaded = False
 
         # Widget
         self.mode_index = 0
@@ -1486,16 +1487,7 @@ class Picker_Docker( DockWidget ):
                 if button.isCheckable():
                     button.toggled.connect(lambda checked, b=button: self.Refresh_Flat_Style(b))
 
-    def Refresh_Flat_Style(self, button):
-        if button.isChecked() or button.underMouse():
-            # When active, remove stylesheet to use theme, but enforce 0 padding to prevent clipping
-            button.setStyleSheet("padding: 0px; margin: 0px;")
-        else:
-            # When inactive, transparent background, 0 padding
-            button.setStyleSheet("background: transparent; border: 1px solid transparent; padding: 0px; margin: 0px;")
-
         # Fix History List styling to prevent clipping
-        # Remove padding/margins that might be added by the theme
         self.layout.history_list.setIconSize(QtCore.QSize(15, 20))
         self.layout.history_list.setStyleSheet("""
             QListWidget { border: none; background: transparent; outline: none; }
@@ -1532,8 +1524,8 @@ class Picker_Docker( DockWidget ):
         self.layout.fill.setToolTip( "Fill Pixel" )
         self.layout.sample_screen.setToolTip( "Sample Screen" )
         self.layout.hex_string.setToolTip( "Hex Code" )
+
         # Style Sheets Layout
-        # Dynamic Theme
         palette = QtWidgets.QApplication.palette()
         bg_color = palette.color(QtGui.QPalette.Window)
         panel_color = bg_color.darker(130).name()
@@ -1541,7 +1533,7 @@ class Picker_Docker( DockWidget ):
 
         style_sheet_panel = """
             #{name} {{
-                background-color: {color}; 
+                background-color: {color};
                 border-radius: 10px;
                 border: 1px solid {border};
             }}
@@ -1552,26 +1544,24 @@ class Picker_Docker( DockWidget ):
         self.layout.panel_gamut.setStyleSheet( style_sheet_panel.format(name="panel_gamut", color=panel_color, border=border_color) )
         self.layout.panel_hexagon.setStyleSheet( style_sheet_panel.format(name="panel_hexagon", color=panel_color, border=border_color) )
         self.layout.panel_dot.setStyleSheet( style_sheet_panel.format(name="panel_dot", color=panel_color, border=border_color) )
-        
+
         # Style Sheets Dialog
         self.dialog.scroll_area_contents_option.setStyleSheet( "#scroll_area_contents_option{background-color: rgba( 0, 0, 0, 20 );}" )
         self.dialog.scroll_area_contents_color.setStyleSheet( "#scroll_area_contents_color{background-color: rgba( 0, 0, 0, 20 );}" )
         self.dialog.scroll_area_contents_system.setStyleSheet( "#scroll_area_contents_system{background-color: rgba( 0, 0, 0, 20 );}" )
 
-        # Panel Icons
+        # Panel preview icons
         qpixmap_fill = QPixmap( 100, 100 )
         qpixmap_fill.fill( QColor( "#000000" ) )
         icon_path =     os.path.join( self.directory_plugin, "ICON" )
-        path_square =   os.path.join( icon_path, "do_square.png" )
-        path_hue =      os.path.join( icon_path, "do_hue.png" )
-        path_gamut =    os.path.join( icon_path, "do_gamut.png" )
-        path_hexagon =  os.path.join( icon_path, "do_hexagon.png" )
-        path_luma =     os.path.join( icon_path, "do_luma.png" )
-        path_dot =      os.path.join( icon_path, "do_dot.png" )
-        path_mask =     os.path.join( icon_path, "do_mask.png" )
-        path_sample =   os.path.join( icon_path, "do_sample.png" )
-        
-        self.dialog.panel_index.blockSignals( True )
+        path_square =   os.path.join( icon_path, "SQUARE.png" )
+        path_hue =      os.path.join( icon_path, "HUE.png" )
+        path_gamut =    os.path.join( icon_path, "GAMUT.png" )
+        path_hexagon =  os.path.join( icon_path, "HEXAGON.png" )
+        path_luma =     os.path.join( icon_path, "LUMA.png" )
+        path_dot =      os.path.join( icon_path, "DOT.png" )
+        path_mask =     os.path.join( icon_path, "MASK.png" )
+
         self.dialog.panel_index.setItemIcon( 0, QIcon( qpixmap_fill ) )
         self.dialog.panel_index.setItemIcon( 1, QIcon( path_square ) )
         self.dialog.panel_index.setItemIcon( 2, QIcon( path_hue ) )
@@ -1580,11 +1570,18 @@ class Picker_Docker( DockWidget ):
         self.dialog.panel_index.setItemIcon( 5, QIcon( path_luma ) )
         self.dialog.panel_index.setItemIcon( 6, QIcon( path_dot ) )
         self.dialog.panel_index.setItemIcon( 7, QIcon( path_mask ) )
-        self.dialog.panel_index.setItemIcon( 8, QIcon( path_sample ) )
-
 
         # StyleSheets Layout
         self.Theme_Changed()
+
+    def Refresh_Flat_Style(self, button):
+        if button.isChecked() or button.underMouse():
+            # When active, remove stylesheet to use theme, but enforce 0 padding to prevent clipping
+            button.setStyleSheet("padding: 0px; margin: 0px;")
+        else:
+            # When inactive, transparent background, 0 padding
+            button.setStyleSheet("background: transparent; border: 1px solid transparent; padding: 0px; margin: 0px;")
+
     def Timer( self ):
         #region QTimer
 
@@ -1692,7 +1689,32 @@ class Picker_Docker( DockWidget ):
         #endregion
         #region Dialog Option
 
+        panel_options = [
+            panel_fill,
+            panel_square,
+            panel_hue,
+            panel_gamut,
+            panel_hexagon,
+            panel_luma,
+            panel_dot,
+            panel_mask,
+        ]
+        saved_panel_id = self.Set_Read( "INT", "panel_index_id", 1 )
         self.dialog.panel_index.setCurrentText( self.Set_Read( "STR", "panel_index", self.panel_index ) )
+        if self.dialog.panel_index.currentText() not in panel_options and 0 <= saved_panel_id < len( panel_options ):
+            self.dialog.panel_index.setCurrentIndex( saved_panel_id )
+
+        self.panel_index = self.dialog.panel_index.currentText()
+        current_id = self.dialog.panel_index.currentIndex()
+        if current_id < 0:
+            current_id = panel_options.index( panel_square )
+            self.dialog.panel_index.setCurrentIndex( current_id )
+            self.panel_index = panel_square
+
+        Krita.instance().writeSetting( DOCKER_NAME, "panel_index", str( self.panel_index ) )
+        Krita.instance().writeSetting( DOCKER_NAME, "panel_index_id", str( current_id ) )
+        self.panel_settings_loaded = True
+
         self.dialog.wheel_mode.setCurrentText( self.Set_Read( "STR", "wheel_mode", self.wheel_mode ) )
         self.dialog.wheel_space.setCurrentText( self.Set_Read( "STR", "wheel_space", self.wheel_space ) )
         self.dialog.hue_ring_width.setValue( self.Set_Read( "EVAL", "hue_ring_width", self.hue_ring_width ) )
@@ -2036,21 +2058,41 @@ class Picker_Docker( DockWidget ):
 
     # Panels
     def Panel_Index( self, index ):
+        if self.panel_settings_loaded == False:
+            return
+
+        panel_options = [
+            panel_fill,
+            panel_square,
+            panel_hue,
+            panel_gamut,
+            panel_hexagon,
+            panel_luma,
+            panel_dot,
+            panel_mask,
+        ]
+        if index not in panel_options:
+            if self.panel_index in panel_options:
+                index = self.panel_index
+            else:
+                index = panel_square
+
+        panel_id = panel_options.index( index )
+
         # UI
-        if index == panel_fill:     self.layout.panel_set.setCurrentIndex( 0 )
-        if index == panel_square:   self.layout.panel_set.setCurrentIndex( 1 )
-        if index == panel_hue:      self.layout.panel_set.setCurrentIndex( 2 )
-        if index == panel_gamut:    self.layout.panel_set.setCurrentIndex( 3 )
-        if index == panel_hexagon:  self.layout.panel_set.setCurrentIndex( 4 )
-        if index == panel_luma:     self.layout.panel_set.setCurrentIndex( 5 )
-        if index == panel_dot:      self.layout.panel_set.setCurrentIndex( 6 )
-        if index == panel_mask:     self.layout.panel_set.setCurrentIndex( 7 )
+        self.layout.panel_set.setCurrentIndex( panel_id )
+        if self.dialog.panel_index.currentIndex() != panel_id:
+            self.dialog.panel_index.blockSignals( True )
+            self.dialog.panel_index.setCurrentIndex( panel_id )
+            self.dialog.panel_index.blockSignals( False )
+
         # Update
         if self.panel_index != index:
             self.panel_index = index
             self.Update_Size()
         # Save
         Krita.instance().writeSetting( DOCKER_NAME, "panel_index", str( self.panel_index ) )
+        Krita.instance().writeSetting( DOCKER_NAME, "panel_index_id", str( panel_id ) )
     # Wheel
     def Wheel_Mode( self, wheel_mode ):
         # Variables
@@ -7849,7 +7891,24 @@ class Picker_Docker( DockWidget ):
 
     # Notifier
     def Application_Closing( self ):
-        pass
+        panel_options = [
+            panel_fill,
+            panel_square,
+            panel_hue,
+            panel_gamut,
+            panel_hexagon,
+            panel_luma,
+            panel_dot,
+            panel_mask,
+        ]
+        panel_id = self.dialog.panel_index.currentIndex()
+        if 0 <= panel_id < len( panel_options ):
+            panel_text = panel_options[panel_id]
+        else:
+            panel_text = self.panel_index if self.panel_index in panel_options else panel_square
+            panel_id = panel_options.index( panel_text )
+        Krita.instance().writeSetting( DOCKER_NAME, "panel_index", str( panel_text ) )
+        Krita.instance().writeSetting( DOCKER_NAME, "panel_index_id", str( panel_id ) )
     def Configuration_Changed( self ):
         pass
     def Image_Closed( self ):
