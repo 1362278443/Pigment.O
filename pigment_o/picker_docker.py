@@ -1801,7 +1801,6 @@ class Picker_Docker( DockWidget ):
 
     # Channel Read
     def Read_Color( self, kdocument, update=False ):
-<<<<<<< HEAD
         if self.cursor_inside == False:
             # Pigment.o Colors
             pf = kfc
@@ -1990,182 +1989,6 @@ class Picker_Docker( DockWidget ):
                     self.Pigmento_READ( cmodel, kf1, kf2, kf3, 0, pf )
                 if ( cb1 == True ) or ( cb2 == True ) or ( cb3 == True ) or ( update == True ):
                     self.Pigmento_READ( cmodel, kb1, kb2, kb3, 0, pb )
-=======
-        # Pigment.o Colors
-        pf = kfc
-        pb = kbc
-        if self.ui_harmony == True:
-            if self.harmony_index == 1: pf = har_01
-            if self.harmony_index == 2: pf = har_02
-            if self.harmony_index == 3: pf = har_03
-            if self.harmony_index == 4: pf = har_04
-            if self.harmony_index == 5: pf = har_05
-        # Depth
-        self.depth_previous = self.color_index["uvd_3"]
-        # Document
-        cmodel = kdocument["cmodel"]
-        n_cd   = kdocument["n_cd"]
-        n_cp   = kdocument["n_cp"]
-        fgc    = kdocument["fgc"]
-        bgc    = kdocument["bgc"]
-        vc     = kdocument["vc"]
-        vi     = kdocument["vi"]
-        # Krita Foreground Color
-        if ( self.fgc != fgc != None ) and ( vi == 0 ) or ( update == True ):
-            # Variables
-            self.fgc = fgc
-            fcm = self.Color_Model_Index( fgc.colorModel() )
-            fgs = fgc.toQString().split()
-            # Color Model
-            if fcm == "A":
-                # Colors
-                k1 = float( fgs[1] ) # does not display range so it is inhereted
-                cf1, kf1 = self.Read_Channel( k1, pf["gray_1"], self.kdepth )
-                m1 = self.mix_index["gray_1"]
-                # Operation
-                if ( cf1 == True ) or ( update == True ):
-                    self.Pigmento_READ( "GRAY", kf1, 0, 0, 0, pf )
-                    self.Mixer_Neutral()
-                    if kf1 != m1:
-                        self.Mixer_Read()
-            elif fcm == "GRAY":
-                # Colors
-                k1, self.kdepth = float( fgs[1] ), int( fgs[3] )
-                cf1, kf1 = self.Read_Channel( k1, pf["gray_1"], self.kdepth )
-                m1 = self.mix_index["gray_1"]
-                # Operation
-                if ( cf1 == True ) or ( update == True ):
-                    self.Pigmento_READ( "GRAY", kf1, 0, 0, 0, pf )
-                    self.Mixer_Neutral()
-                    if kf1 != m1:
-                        self.Mixer_Read()
-            elif fcm == "CMYK":
-                # Colors
-                k1, k2, k3, k4, self.kdepth = float( fgs[1] ), float( fgs[3] ), float( fgs[5] ), float( fgs[7] ), int( fgs[9] )
-                cf1, kf1 = self.Read_Channel( k1, pf["cmyk_1"], self.kdepth )
-                cf2, kf2 = self.Read_Channel( k2, pf["cmyk_2"], self.kdepth )
-                cf3, kf3 = self.Read_Channel( k3, pf["cmyk_3"], self.kdepth )
-                cf4, kf4 = self.Read_Channel( k4, pf["cmyk_4"], self.kdepth )
-                m1 = self.mix_index["cmyk_1"]
-                m2 = self.mix_index["cmyk_2"]
-                m3 = self.mix_index["cmyk_3"]
-                m4 = self.mix_index["cmyk_4"]
-                # Operation
-                if ( cf1 == True ) or ( cf2 == True ) or ( cf3 == True ) or ( cf4 == True ) or ( update == True ):
-                    self.Pigmento_READ( "CMYK", kf1, kf2, kf3, kf4, pf )
-                    self.Mixer_Neutral()
-                    if kf1 != m1 or kf2 != m2 or kf3 != m3 or kf4 != m4:
-                        self.Mixer_Read()
-            elif fcm in [ "SRGB", "LRGB", "YUV", "XYZ", "LAB" ]:
-                # Variables
-                if   fcm == "SRGB": s1, s2, s3 = "srgb_1", "srgb_2", "srgb_3"
-                elif fcm == "LRGB": s1, s2, s3 = "lrgb_1", "lrgb_2", "lrgb_3"
-                elif fcm == "YUV":  s1, s2, s3 = "yuv_1",  "yuv_2",  "yuv_3"
-                elif fcm == "XYZ":  s1, s2, s3 = "xyz_1",  "xyz_2",  "xyz_3"
-                elif fcm == "LAB":  s1, s2, s3 = "lab_1",  "lab_2",  "lab_3"
-                # Colors
-                k1, k2, k3, self.kdepth = float( fgs[1] ), float( fgs[3] ), float( fgs[5] ), int( fgs[7] )
-                cf1, kf1 = self.Read_Channel( k1, pf[s1], self.kdepth )
-                cf2, kf2 = self.Read_Channel( k2, pf[s2], self.kdepth )
-                cf3, kf3 = self.Read_Channel( k3, pf[s3], self.kdepth )
-                m1 = self.mix_index[s1]
-                m2 = self.mix_index[s2]
-                m3 = self.mix_index[s3]
-                # Operation
-                if ( cf1 == True ) or ( cf2 == True ) or ( cf3 == True ) or ( update == True ):
-                    self.Pigmento_READ( fcm, kf1, kf2, kf3, 0, pf )
-                    self.Mixer_Neutral()
-                    if kf1 != m1 or kf2 != m2 or kf3 != m3:
-                        self.Mixer_Read()
-        # Krita Background Color
-        elif ( self.bgc != bgc != None ) and ( vi == 0 ) or ( update == True ):
-            # Variables
-            self.bgc = bgc
-            bcm = self.Color_Model_Index( bgc.colorModel() )
-            bgs = bgc.toQString().split()
-            # Color Model
-            if bcm == "A":
-                # Colors
-                k1 = float( bgs[1] ) # does not display range so it is inhereted
-                cb1, kb1 = self.Read_Channel( k1, pb["gray_1"], self.kdepth )
-                # Operation
-                if ( cb1 == True ) or ( update == True ):
-                    self.Pigmento_READ( "GRAY", kb1, 0, 0, 0, pb )
-            elif bcm == "GRAY":
-                # Colors
-                k1, ka = float( bgs[1] ), int( bgs[3] )
-                cb1, kb1 = self.Read_Channel( k1, pb["gray_1"], ka )
-                # Operation
-                if ( cb1 == True ) or ( update == True ):
-                    self.Pigmento_READ( "GRAY", kb1, 0, 0, 0, pb )
-            elif bcm == "CMYK":
-                # Colors
-                k1, k2, k3, k4, ka = float( bgs[1] ), float( bgs[3] ), float( bgs[5] ), float( bgs[7] ), int( bgs[9] )
-                cb1, kb1 = self.Read_Channel( k1, pb["cmyk_1"], ka )
-                cb2, kb2 = self.Read_Channel( k2, pb["cmyk_2"], ka )
-                cb3, kb3 = self.Read_Channel( k3, pb["cmyk_3"], ka )
-                cb4, kb4 = self.Read_Channel( k4, pb["cmyk_4"], ka )
-                # Operation
-                if ( cb1 == True ) or ( cb2 == True ) or ( cb3 == True ) or ( cb4 == True ) or ( update == True ):
-                    self.Pigmento_READ( "CMYK", kb1, kb2, kb3, kb4, pb )
-            elif bcm in [ "SRGB", "LRGB", "YUV", "XYZ", "LAB" ]:
-                # Variables
-                if bcm == "SRGB":
-                    s1 = "srgb_1"
-                    s2 = "srgb_2"
-                    s3 = "srgb_3"
-                elif bcm == "LRGB":
-                    s1 = "lrgb_1"
-                    s2 = "lrgb_2"
-                    s3 = "lrgb_3"
-                elif bcm == "YUV":
-                    s1 = "yuv_1"
-                    s2 = "yuv_2"
-                    s3 = "yuv_3"
-                elif bcm == "XYZ":
-                    s1 = "xyz_1"
-                    s2 = "xyz_2"
-                    s3 = "xyz_3"
-                elif bcm == "LAB":
-                    s1 = "lab_1"
-                    s2 = "lab_2"
-                    s3 = "lab_3"
-                # Colors
-                k1, k2, k3, ka = float( bgs[1] ), float( bgs[3] ), float( bgs[5] ), int( bgs[7] )
-                cb1, kb1 = self.Read_Channel( k1, pb[s1], ka )
-                cb2, kb2 = self.Read_Channel( k2, pb[s2], ka )
-                cb3, kb3 = self.Read_Channel( k3, pb[s3], ka )
-                # Operation
-                if ( cb1 == True ) or ( cb2 == True ) or ( cb3 == True ) or ( update == True ):
-                    self.Pigmento_READ( bcm, kb1, kb2, kb3, 0, pb )
-        # Krita Vector Color
-        elif ( vi > 0 ) or ( update == True ):
-            # Variables
-            v = 255
-            # Foreground Color
-            vfg = fgc.colorForCanvas( vc )
-            kf1 = vfg.redF()
-            kf2 = vfg.greenF()
-            kf3 = vfg.blueF()
-            self.kdepth = vfg.alpha()
-            # Background Color
-            vbg = bgc.colorForCanvas( vc )
-            kb1 = vbg.redF()
-            kb2 = vbg.greenF()
-            kb3 = vbg.blueF()
-            # Range
-            cf1 = kf1 != pf["srgb_1"]
-            cf2 = kf2 != pf["srgb_2"]
-            cf3 = kf3 != pf["srgb_3"]
-            cb1 = kb1 != pb["srgb_1"]
-            cb2 = kb2 != pb["srgb_2"]
-            cb3 = kb3 != pb["srgb_3"]
-            # Operation
-            if ( cf1 == True ) or ( cf2 == True ) or ( cf3 == True ) or ( update == True ):
-                self.Pigmento_READ( cmodel, kf1, kf2, kf3, 0, pf )
-            if ( cb1 == True ) or ( cb2 == True ) or ( cb3 == True ) or ( update == True ):
-                self.Pigmento_READ( cmodel, kb1, kb2, kb3, 0, pb )
->>>>>>> 8370fad2ad8974b70f4c15e17481d7cdfa041c99
     def Read_Only( self, kdocument ):
         # Variables
         fgc = kdocument["fgc"]
@@ -3898,7 +3721,6 @@ class Picker_Docker( DockWidget ):
     #region UI LAYOUT PANEL Plane
 
     # Update
-<<<<<<< HEAD
     def Panel_Plane_Gradient( self, update=False ):
         # Variable
         mini = 2 # amount of square
@@ -3916,56 +3738,6 @@ class Picker_Docker( DockWidget ):
         else:           plane_ux = self.plane_unit
         if dy > maxi:   plane_uy = int( height / ( maxi + self.plane_split ) )
         else:           plane_uy = self.plane_unit
-=======
-    def Panel_Dot_Gradient( self ):
-        # Variables
-        dot_00 = self.dot_color[0]
-        dot_01 = self.dot_color[1]
-        dot_02 = self.dot_color[2]
-        dot_03 = self.dot_color[3]
-        # Color Lines
-        line_top = list()
-        for i in range( 0, self.dot_dimension ):
-            line_top.append( dot_02 )
-        line_mid = list()
-        for i in range( 0, self.dot_dimension ):
-            if i == self.dot_dimension: color = dot_01
-            else:                       color = self.Color_Interpolate_2( self.mixer_space, dot_00, dot_01, i / ( self.dot_dimension-1 ) )
-            line_mid.append( color )
-        line_bot = list()
-        for i in range( 0, self.dot_dimension ):
-            line_bot.append( dot_03 )
-        # Color Matrix
-        dot_matrix = list()
-        value_top = 0
-        value_mid = int( self.dot_dimension * 0.5 )
-        value_bot = self.dot_dimension - 1
-        for y in range( 0, self.dot_dimension ):
-            line = list()
-            for x in range( 0, self.dot_dimension ):
-                if y == value_top:
-                    line.append( line_top[x]["hex6"] )
-                if ( y > value_top and y < value_mid ):
-                    color = self.Color_Interpolate_2( self.mixer_space, line_top[x], line_mid[x], y / value_mid )
-                    line.append( color["hex6"] )
-                if y == value_mid:
-                    line.append( line_mid[x]["hex6"] )
-                if ( y > value_mid and y < value_bot ):
-                    color = self.Color_Interpolate_2( self.mixer_space, line_mid[x], line_bot[x], ( y-value_mid ) / value_mid )
-                    line.append( color["hex6"] )
-                if y == value_bot:
-                    line.append( line_bot[x]["hex6"] )
-            dot_matrix.append( line )
-        if len( dot_matrix ) == 0:
-            dot_matrix = None
-        # Update
-        self.panel_dot.Update_Gradient( dot_matrix, self.dot_dimension )
-    # Signals
-    def Panel_Dot_Value( self, hex_code ):
-        self.Color_Convert( "HEX", hex_code, 0, 0, 0, self.color_index )
-        self.history_pending = True
-        self.Sync_Elements( not self.performance_release, True, False )
->>>>>>> 8370fad2ad8974b70f4c15e17481d7cdfa041c99
 
         # Calculation Interpolation of Colors
         check_widget = ( self.plane_ww != ww ) or ( self.plane_hh != hh )
@@ -4090,11 +3862,7 @@ class Picker_Docker( DockWidget ):
     def Panel_Mask_Value( self, hex_code ):
         self.Color_Convert( "HEX", hex_code, 0, 0, 0, self.color_index )
         self.history_pending = True
-<<<<<<< HEAD
         self.Sync_Elements( not self.performance_release, True, False )
-=======
-        self.Sync_Elements( not self.performance_release, True, False )
->>>>>>> 8370fad2ad8974b70f4c15e17481d7cdfa041c99
 
     # Live
     def Panel_Mask_Live( self ):
