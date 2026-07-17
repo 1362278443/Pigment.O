@@ -817,25 +817,8 @@ class Sampler_Docker( DockWidget ):
 
     # Workflow
     def Color_Space( self, color_space ):
-        # Normalize legacy/invalid values from persisted settings.
-        alias = {
-            "RGB" : "SRGB",
-            "GREY" : "GRAY",
-            "LRGB_LINEAR" : "LRGB",
-            }
-        valid = {
-            "A", "GRAY", "SRGB", "LRGB", "CMYK", "RYB", "YUV",
-            "HSV", "HSL", "HCY", "ARD", "XYZ", "XYY", "LAB", "LCH",
-            }
-        color_space = alias.get( color_space, color_space )
-        if color_space not in valid:
-            color_space = "SRGB"
         # Variables
         self.color_space = color_space
-        if self.layout.color_space.currentText() != color_space:
-            self.layout.color_space.blockSignals( True )
-            self.layout.color_space.setCurrentText( color_space )
-            self.layout.color_space.blockSignals( False )
 
         # Range
         bnw = [
@@ -1313,12 +1296,8 @@ class Sampler_Docker( DockWidget ):
 
     # Colors Spaces
     def CS_Luminosity( self, cs_luminosity ):
-        self.convert.Set_Luminosity( cs_luminosity )
-        self.cs_luminosity = self.convert.luminosity
-        if self.dialog.cs_luminosity.currentText() != self.cs_luminosity:
-            self.dialog.cs_luminosity.blockSignals( True )
-            self.dialog.cs_luminosity.setCurrentText( self.cs_luminosity )
-            self.dialog.cs_luminosity.blockSignals( False )
+        self.cs_luminosity = cs_luminosity
+        self.convert.Set_Luminosity( self.cs_luminosity )
         Kritarc_Write( DOCKER_SAMPLER, "cs_luminosity", self.cs_luminosity )
     def CS_Matrix( self, cs_matrix ):
         self.cs_matrix = cs_matrix

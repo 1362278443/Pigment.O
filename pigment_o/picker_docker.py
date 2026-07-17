@@ -6468,12 +6468,8 @@ class Picker_Docker( DockWidget ):
 
     # Colors Spaces
     def CS_Luminosity( self, cs_luminosity ):
-        self.convert.Set_Luminosity( cs_luminosity )
-        self.cs_luminosity = self.convert.luminosity
-        if self.dialog.cs_luminosity.currentText() != self.cs_luminosity:
-            self.dialog.cs_luminosity.blockSignals( True )
-            self.dialog.cs_luminosity.setCurrentText( self.cs_luminosity )
-            self.dialog.cs_luminosity.blockSignals( False )
+        self.cs_luminosity = cs_luminosity
+        self.convert.Set_Luminosity( self.cs_luminosity )
         self.Pigmento_SYNC()
         Kritarc_Write( DOCKER_PICKER, "cs_luminosity", self.cs_luminosity )
     def CS_Matrix( self, cs_matrix ):
