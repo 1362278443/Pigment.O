@@ -252,31 +252,52 @@ class Convert():
         self.gamma_y = gamma_y
         self.gamma_l = gamma_l
     def Set_Luminosity( self, luminosity ):
-        self.luminosity = luminosity
+        alias = {
+            "601" : "Rec.601",
+            "709" : "Rec.709",
+            "2020" : "Rec.2020",
+            "2100" : "Rec.2100",
+            "BT.601" : "Rec.601",
+            "BT.709" : "Rec.709",
+            "BT.2020" : "Rec.2020",
+            "BT.2100" : "Rec.2100",
+            "ITU-R BT.601" : "Rec.601",
+            "ITU-R BT.709" : "Rec.709",
+            "ITU-R BT.2020" : "Rec.2020",
+            "ITU-R BT.2100" : "Rec.2100",
+            }
+        self.luminosity = alias.get( luminosity, luminosity )
         if self.luminosity == "Rec.601":
             self.luma_r = 0.299
             self.luma_g = 0.587 # 1 - self.luma_r - self.luma_b
             self.luma_b = 0.114
             self.luma_pb = 1.772
             self.luma_pr = 1.402
-        if self.luminosity == "Rec.709":
+        elif self.luminosity == "Rec.709":
             self.luma_r = 0.2126
             self.luma_g = 0.7152 # 1 - self.luma_r - self.luma_b
             self.luma_b = 0.0722
             self.luma_pb = 1.8556
             self.luma_pr = 1.5748
-        if self.luminosity == "Rec.2020":
+        elif self.luminosity == "Rec.2020":
             self.luma_r = 0.2627
             self.luma_g = 0.6780 # 1 - self.luma_r - self.luma_b
             self.luma_b = 0.0593
             self.luma_pb = 1.8814
             self.luma_pr = 1.4746
-        if self.luminosity == "Rec.2100":
+        elif self.luminosity == "Rec.2100":
             self.luma_r = 0.2627
             self.luma_g = 0.6780 # 1 - self.luma_r - self.luma_b
             self.luma_b = 0.0593
             self.luma_pb = 1.8814
             self.luma_pr = 1.4746
+        else:
+            self.luminosity = "Rec.709"
+            self.luma_r = 0.2126
+            self.luma_g = 0.7152 # 1 - self.luma_r - self.luma_b
+            self.luma_b = 0.0722
+            self.luma_pb = 1.8556
+            self.luma_pr = 1.5748
     def Set_Matrix( self, matrix ):
         # Origin from http://www.brucelindbloom.com/
 
@@ -754,6 +775,7 @@ class Convert():
         elif self.luminosity == "Rec.709":  y, u, v = self.srgb_to_yuv_709(  r, g, b )
         elif self.luminosity == "Rec.2020": y, u, v = self.srgb_to_yuv_2020( r, g, b )
         elif self.luminosity == "Rec.2100": y, u, v = self.srgb_to_yuv_2100( r, g, b )
+        else:                                y, u, v = self.srgb_to_yuv_709(  r, g, b )
         y, u, v = self.Vector_Limit( y, u, v )
         return [ y, u, v ]
     def yuv_to_srgb( self, y, u, v ):
@@ -761,6 +783,7 @@ class Convert():
         elif self.luminosity == "Rec.709":  r, g, b = self.yuv_to_srgb_709(  y, u, v )
         elif self.luminosity == "Rec.2020": r, g, b = self.yuv_to_srgb_2020( y, u, v )
         elif self.luminosity == "Rec.2100": r, g, b = self.yuv_to_srgb_2100( y, u, v )
+        else:                                r, g, b = self.yuv_to_srgb_709(  y, u, v )
         r, g, b = self.Vector_Limit( r, g, b )
         return [ r, g, b ]
     # 601

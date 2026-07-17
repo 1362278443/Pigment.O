@@ -37,24 +37,24 @@ cursor_white = QColor( "#ffffff" )
 #region Shared
 
 # Region
-def Circles( px, py, side ):
+def Circles( px, py, side, hue_ring_width=0.033 ):
     # Circle 0 ( Everything )
     v0a = 0.01
     v0b = 1 - ( 2*v0a )
     circle_0 = QPainterPath()
     circle_0.addEllipse( int( px + side * v0a ), int( py + side * v0a ), int( side * v0b ), int( side * v0b ) )
     # Circle 1 ( Outter Most Region )
-    v1a = 0.033
+    v1a = hue_ring_width
     v1b = 1 - ( 2*v1a )
     circle_1 = QPainterPath()
     circle_1.addEllipse( int( px + side * v1a ), int( py + side * v1a ), int( side * v1b ), int( side * v1b ) )
     # Circle 2 ( Inner Most Region )
-    v2a = 0.066
+    v2a = hue_ring_width
     v2b = 1 - ( 2*v2a )
     circle_2 = QPainterPath()
     circle_2.addEllipse( int( px + side * v2a ), int( py + side * v2a ), int( side * v2b ), int( side * v2b ) )
     # Circle 3 ( Central Dot )
-    v3a = 0.13
+    v3a = min( 0.49, hue_ring_width + 0.01 )
     v3b = 1 - ( 2*v3a )
     circle_3 = QPainterPath()
     circle_3.addEllipse( int( px + side * v3a ), int( py + side * v3a ), int( side * v3b ), int( side * v3b ) )
@@ -515,12 +515,12 @@ class Harmony_Span( QWidget ):
                 width = 1
 
         # Harmony Angle
-        painter.setPen( QtCore.Qt.NoPen )
-        painter.setBrush( QBrush( self.c_black ) )
+        painter.setBrush( QtCore.Qt.NoBrush )
+        painter.setPen( QPen( self.c_black, 2, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
         painter.drawRect( int( px ), int( 1 ), int( width ), int( 8 ) )
-        painter.setPen( QtCore.Qt.NoPen )
-        painter.setBrush( QBrush( self.c_white ) )
-        painter.drawRect( int( px + 1 ), int( 2 ), int( width - 2 ), int( 6 ) )
+        if width > 2:
+            painter.setPen( QPen( self.c_white, 1, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
+            painter.drawRect( int( px + 1 ), int( 2 ), int( width - 2 ), int( 6 ) )
 
 #endregion
 #region Panels
@@ -1041,6 +1041,7 @@ class Panel_Hue_Circle( QWidget ):
         self.hue_tone = None
         self.gradient = None
         self.amplitude = 0.008
+        self.hue_ring_width = 0.1
         # Color
         self.c_lite = QColor( "#ffffff" )
         self.c_dark = QColor( "#000000" )
@@ -1069,7 +1070,7 @@ class Panel_Hue_Circle( QWidget ):
         self.ax = int( self.w2 - side2 )
         self.ay = int( self.h2 - ( self.side * delta_a ) ) # Inverted for the formula
         # Circles
-        self.circle_0, self.circle_1, self.circle_2, self.circle_3 = Circles( self.px, self.py, self.side )
+        self.circle_0, self.circle_1, self.circle_2, self.circle_3 = Circles( self.px, self.py, self.side, self.hue_ring_width )
         self.circle_01 = self.circle_0.subtracted( self.circle_1 )
         self.circle_02 = self.circle_0.subtracted( self.circle_2 )
         self.circle_12 = self.circle_1.subtracted( self.circle_2 )
@@ -1106,7 +1107,12 @@ class Panel_Hue_Circle( QWidget ):
             triangle = QRegion( polygon, Qt.OddEvenFill )
             mask_region = widget_square.subtracted( triangle )
         if hue_shape == "SQUARE":
-            sk = 0.2
+            border_width = 0.015
+            inner_circle_diameter = max( 0.1, 1 - 2 * ( border_width + self.hue_ring_width ) )
+            safety_margin = 0.025
+            available_diameter = max( 0.1, inner_circle_diameter - safety_margin )
+            colorpanel_side = available_diameter / ( 2 ** 0.5 )
+            sk = max( 0.05, ( 1 - colorpanel_side ) * 0.5 )
             square = QRegion(
                 int( self.px + self.side * sk - pad ),
                 int( self.py + self.side * sk - pad ),
@@ -1140,6 +1146,9 @@ class Panel_Hue_Circle( QWidget ):
     def Set_Theme( self, c_lite, c_dark ):
         self.c_lite = QColor( c_lite )
         self.c_dark = QColor( c_dark )
+        self.update()
+    def Set_HueRingWidth( self, hue_ring_width ):
+        self.hue_ring_width = max( 0.025, min( 0.2, float( hue_ring_width ) ) )
         self.update()
     # Update
     def Update_Color( self, wheel_mode, wheel_space, color_index ):
@@ -1250,7 +1259,7 @@ class Panel_Hue_Circle( QWidget ):
 
         # Variables
         line_width = 4
-        radius = 0.5
+        radius = max( 0.05, 0.5 - ( self.hue_ring_width * 0.5 ) )
         margin = 0.05
 
         # Circle Points
@@ -1298,7 +1307,7 @@ class Panel_Hue_Circle( QWidget ):
         # Light Line
         painter.setPen( QPen( self.c_lite, line_width, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
         painter.setBrush( QtCore.Qt.NoBrush )
-        if length > 0:
+        if self.harmony_rule != None and length > 0:
             line_gray = QPainterPath()
             for point in list_point:
                 line_gray.moveTo( int( self.w2 ), int( self.h2 ) )
@@ -1315,12 +1324,33 @@ class Panel_Hue_Circle( QWidget ):
                 line_gray.lineTo( int( pin[0] ), int( pin[1] ) )
             painter.setClipPath( self.circle_12 )
             painter.drawPath( line_gray )
-        # Dark Line over Hue
-        painter.setPen( QPen( self.c_dark, line_width, Qt.SolidLine, Qt.SquareCap, Qt.MiterJoin ) )
-        painter.setBrush( QtCore.Qt.NoBrush )
-        painter.setClipPath( self.circle_01 )
+        # Ring cursor: use outlined circles to match middle panel indicator style.
+        painter.setClipping( False )
+        c_rad = 8
         for point in list_point:
-            painter.drawLine( int( point[0] ), int( point[1] ), int( self.w2 ), int( self.h2 ) )
+            painter.setBrush( QtCore.Qt.NoBrush )
+            painter.setPen( QtGui.QPen( QtGui.QColor( 0, 0, 0, 150 ), 3 ) )
+            painter.drawEllipse( QtCore.QPoint( int( point[0] ), int( point[1] ) ), c_rad, c_rad )
+            painter.setPen( QtGui.QPen( QtGui.QColor( 255, 255, 255 ), 2 ) )
+            painter.drawEllipse( QtCore.QPoint( int( point[0] ), int( point[1] ) ), c_rad, c_rad )
+
+        # Ring edge guides to visually align the center panel edge and hue ring.
+        painter.setPen( QPen( QColor( "#585858" ), 2.5, Qt.SolidLine ) )
+        painter.setBrush( QtCore.Qt.NoBrush )
+        border_offset = -3
+        border_x = self.px + border_offset
+        border_y = self.py + border_offset
+        border_size = self.side - 2 * border_offset
+        painter.drawEllipse( int( border_x ), int( border_y ), int( border_size ), int( border_size ) )
+
+        painter.setPen( QPen( QColor( "#585858" ), 3, Qt.SolidLine ) )
+        gap_width = 0.006
+        inner_offset = self.hue_ring_width + gap_width
+        inner_x = self.px + self.side * inner_offset
+        inner_y = self.py + self.side * inner_offset
+        inner_size = self.side * ( 1 - 2 * inner_offset )
+        painter.drawEllipse( int( inner_x ), int( inner_y ), int( inner_size ), int( inner_size ) )
+        painter.setClipping( True )
 
 class Panel_Gamut( QWidget ):
     SIGNAL_VALUE = QtCore.pyqtSignal( str, float, float, float )
@@ -3528,34 +3558,32 @@ class Channel_Slider( QWidget ):
 
             # Cursor
             value = int( self.ex )
-            bl = value - 3
-            br = value + 3
-            wl = value - 1
-            wr = value + 1
+            bl = value - 4
+            br = value + 4
             top1 = 0
             bot1 = self.hh
-            top2 = 1
-            bot2 = self.hh - 1
-            # Black Square
+            # Hollow cursor (black outer + white inner + transparent center) for all slider modes.
+            outer_w = max( 1, br - bl )
+            outer_h = max( 1, bot1 - top1 )
+            hole_x = bl + 2
+            hole_y = top1 + 2
+            hole_w = max( 1, outer_w - 4 )
+            hole_h = max( 1, outer_h - 4 )
+            white_x = bl + 1
+            white_y = top1 + 1
+            white_w = max( 1, outer_w - 2 )
+            white_h = max( 1, outer_h - 2 )
+
+            r0 = QRegion( int( bl ), int( top1 ), int( outer_w ), int( outer_h ) )
+            r1 = QRegion( int( hole_x ), int( hole_y ), int( hole_w ), int( hole_h ) )
+            region = r0.subtracted( r1 )
+            painter.setClipRegion( region )
             painter.setPen( QtCore.Qt.NoPen )
             painter.setBrush( self.brush_black )
-            black = QPolygon( [
-                QPoint( int( bl ), int( top1 ) ),
-                QPoint( int( bl ), int( bot1 ) ),
-                QPoint( int( br ), int( bot1 ) ),
-                QPoint( int( br ), int( top1 ) ),
-                ] )
-            painter.drawPolygon( black )
-            # White Square
-            painter.setPen( QtCore.Qt.NoPen )
+            painter.drawRect( int( bl ), int( top1 ), int( outer_w ), int( outer_h ) )
             painter.setBrush( self.brush_white )
-            square = QPolygon( [
-                QPoint( int( wl ), int( top2 ) ),
-                QPoint( int( wl ), int( bot2 ) ),
-                QPoint( int( wr ), int( bot2 ) ),
-                QPoint( int( wr ), int( top2 ) ),
-                ] )
-            painter.drawPolygon( square )
+            painter.drawRect( int( white_x ), int( white_y ), int( white_w ), int( white_h ) )
+            painter.setClipping( False )
         elif self.gradient != None and self.patch == True:
             # Clip Mask
             slider = QRect( int( 1 ), int( 1 ), int( w2 ), int( h1 ) )

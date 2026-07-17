@@ -42,6 +42,18 @@ from .picker_extension import *
 #endregion
 
 
+class History_Color_Delegate( QtWidgets.QStyledItemDelegate ):
+    def paint( self, painter, option, index ):
+        color = QColor( index.data( QtCore.Qt.UserRole ) )
+        if color.isValid() == False:
+            color = QColor( index.data( QtCore.Qt.ToolTipRole ) )
+        painter.save()
+        painter.fillRect( option.rect, color )
+        painter.restore()
+    def sizeHint( self, option, index ):
+        return QtCore.QSize( 20, 20 )
+
+
 class Picker_Docker( DockWidget ):
     """
     Color Picker and Mixer
@@ -54,6 +66,7 @@ class Picker_Docker( DockWidget ):
 
         # Construct
         self.Interface()
+        self.Fix_Layout_Constraints()
         self.Module()
         self.Style()
         self.Variable()
@@ -74,6 +87,44 @@ class Picker_Docker( DockWidget ):
         self.dialog = uic.loadUi( os.path.join( self.directory_plugin, "picker_settings.ui" ), QDialog( self ) )
         self.dialog.setWindowTitle( f"{ DOCKER_PICKER } : Settings" )
         self.dialog.accept() # Hides the Dialog
+    def Fix_Layout_Constraints( self ):
+        # Keep controls readable while preserving compact channel rows.
+        expand_widgets = ( QtWidgets.QLabel, QtWidgets.QComboBox )
+        for widget in self.layout.findChildren( expand_widgets ) + self.dialog.findChildren( expand_widgets ):
+            widget.setMaximumHeight( 16777215 )
+
+        compact_widgets = ( QtWidgets.QPushButton, QtWidgets.QAbstractSpinBox, QtWidgets.QLineEdit )
+        for widget in self.layout.findChildren( compact_widgets ) + self.dialog.findChildren( compact_widgets ):
+            widget.setMaximumHeight( 30 )
+
+        for widget in self.layout.findChildren( QtWidgets.QDoubleSpinBox ):
+            widget.setDecimals( 0 )
+
+        self.layout.history_list.setMaximumHeight( 30 )
+        self.layout.history_list.setItemDelegate( History_Color_Delegate( self.layout.history_list ) )
+        self.layout.history_list.setIconSize( QtCore.QSize( 20, 20 ) )
+        self.layout.history_list.setGridSize( QtCore.QSize( 20, 20 ) )
+        self.layout.history_list.setSpacing( 0 )
+
+        row_height = 20
+        row_spacing = 4
+        channel_layout = self.layout.channel_set.layout()
+        if channel_layout != None:
+            for i in range( 0, channel_layout.count() ):
+                item = channel_layout.itemAt( i )
+                container = item.widget()
+                if container != None:
+                    layout = container.layout()
+                    if isinstance( layout, QtWidgets.QVBoxLayout ):
+                        layout.setSpacing( row_spacing )
+                        layout.setContentsMargins( 0, 0, 0, 0 )
+                        for j in range( 0, layout.count() ):
+                            sub_item = layout.itemAt( j )
+                            w = sub_item.widget()
+                            if w != None:
+                                w.setFixedHeight( row_height )
+                                if isinstance( w, QtWidgets.QPushButton ):
+                                    w.setStyleSheet( "padding: 0px; margin: 0px;" )
     def Module( self ):
         #region Notifier
 
@@ -825,6 +876,8 @@ class Picker_Docker( DockWidget ):
 
         # History
         self.cursor_inside = None
+        self.widget_press = False
+        self.history_pending = False
 
         # Footer
         self.mode_index = 0
@@ -844,6 +897,7 @@ class Picker_Docker( DockWidget ):
         self.ui_mixer   = Kritarc_Read( DOCKER_PICKER, "ui_mixer",   False, eval )
         self.ui_pin     = Kritarc_Read( DOCKER_PICKER, "ui_pin",     False, eval )
         self.ui_history = Kritarc_Read( DOCKER_PICKER, "ui_history", False, eval )
+        self.history_hex = Kritarc_Read( DOCKER_PICKER, "history_hex", list(), eval )
 
         #endregion
         #region Dialog Interface
@@ -857,6 +911,7 @@ class Picker_Docker( DockWidget ):
         self.wheel_space   = Kritarc_Read( DOCKER_PICKER, "wheel_space",   "HSV",        str ) # "HSV" "HSL" "HCY" "ARD"
         # Panel Options
         self.hue_shape     = Kritarc_Read( DOCKER_PICKER, "hue_shape",     "TRIANGLE",   str ) # "None" "TRIANGLE" "SQUARE" "DIAMOND"
+        self.hue_ring_width = Kritarc_Read( DOCKER_PICKER, "hue_ring_width", 0.1,          eval )
         self.gamut_mask    = Kritarc_Read( DOCKER_PICKER, "gamut_mask",    "FULL",       str ) # "FULL" "TRIANGLE" "SQUARE" "HEXAGON" "CIRCLE_1" "CIRCLE_2" "NONE"
         self.mask_folder   = Kritarc_Read( DOCKER_PICKER, "mask_folder",   "SPHERE",     str ) # "SPHERE" "USER"
         self.mask_edit     = Kritarc_Read( DOCKER_PICKER, "mask_edit",     False,        eval )
@@ -921,6 +976,8 @@ class Picker_Docker( DockWidget ):
 
         # Pin
         self.Pin_Load( self.pin_color )
+        # History
+        self.History_Load()
     def Connection( self ):
         #region Layout
 
@@ -1026,6 +1083,7 @@ class Picker_Docker( DockWidget ):
         self.dialog.wheel_mode.currentTextChanged.connect( self.Wheel_Mode );     self.dialog.wheel_mode.setCurrentText( self.wheel_mode );     self.Wheel_Mode( self.wheel_mode )
         self.dialog.wheel_space.currentTextChanged.connect( self.Wheel_Space );   self.dialog.wheel_space.setCurrentText( self.wheel_space );   self.Wheel_Space( self.wheel_space )
         self.dialog.hue_shape.currentTextChanged.connect( self.Hue_Shape );       self.dialog.hue_shape.setCurrentText( self.hue_shape );       self.Hue_Shape( self.hue_shape )
+        self.dialog.hue_ring_width.valueChanged.connect( self.Hue_Ring_Width );   self.dialog.hue_ring_width.setValue( self.hue_ring_width );   self.Hue_Ring_Width( self.hue_ring_width )
         self.dialog.gamut_mask.currentTextChanged.connect( self.Gamut_Mask );     self.dialog.gamut_mask.setCurrentText( self.gamut_mask );     self.Gamut_Mask( self.gamut_mask )
         self.dialog.gamut_reset.clicked.connect( self.Gamut_Reset )
         self.dialog.mask_folder.currentTextChanged.connect( self.Mask_Folder );   self.dialog.mask_folder.setCurrentText( self.mask_folder );   self.Mask_Folder( self.mask_folder )
@@ -1489,7 +1547,12 @@ class Picker_Docker( DockWidget ):
             widget.setStyleSheet( "#" + widget.objectName() + "{background-color: " + backdrop + ";}" )
 
         # History
-        self.layout.history_list.setStyleSheet( "#history_list{background-color: " + backdrop + ";}" )
+        self.layout.history_list.setStyleSheet(
+            "#history_list{background-color: " + backdrop + ";}"
+            "#history_list::item{border: 0px; margin: 0px; padding: 0px;}"
+            "#history_list::item:hover{background: transparent;}"
+            "#history_list::item:selected{background: transparent;}"
+        )
 
         # Icons
         self.layout.fill_pixel.setStyleSheet( "#fill_pixel::checked{ background-color : " + w_light + "; }" )
@@ -1738,6 +1801,7 @@ class Picker_Docker( DockWidget ):
 
     # Channel Read
     def Read_Color( self, kdocument, update=False ):
+<<<<<<< HEAD
         if self.cursor_inside == False:
             # Pigment.o Colors
             pf = kfc
@@ -1926,6 +1990,182 @@ class Picker_Docker( DockWidget ):
                     self.Pigmento_READ( cmodel, kf1, kf2, kf3, 0, pf )
                 if ( cb1 == True ) or ( cb2 == True ) or ( cb3 == True ) or ( update == True ):
                     self.Pigmento_READ( cmodel, kb1, kb2, kb3, 0, pb )
+=======
+        # Pigment.o Colors
+        pf = kfc
+        pb = kbc
+        if self.ui_harmony == True:
+            if self.harmony_index == 1: pf = har_01
+            if self.harmony_index == 2: pf = har_02
+            if self.harmony_index == 3: pf = har_03
+            if self.harmony_index == 4: pf = har_04
+            if self.harmony_index == 5: pf = har_05
+        # Depth
+        self.depth_previous = self.color_index["uvd_3"]
+        # Document
+        cmodel = kdocument["cmodel"]
+        n_cd   = kdocument["n_cd"]
+        n_cp   = kdocument["n_cp"]
+        fgc    = kdocument["fgc"]
+        bgc    = kdocument["bgc"]
+        vc     = kdocument["vc"]
+        vi     = kdocument["vi"]
+        # Krita Foreground Color
+        if ( self.fgc != fgc != None ) and ( vi == 0 ) or ( update == True ):
+            # Variables
+            self.fgc = fgc
+            fcm = self.Color_Model_Index( fgc.colorModel() )
+            fgs = fgc.toQString().split()
+            # Color Model
+            if fcm == "A":
+                # Colors
+                k1 = float( fgs[1] ) # does not display range so it is inhereted
+                cf1, kf1 = self.Read_Channel( k1, pf["gray_1"], self.kdepth )
+                m1 = self.mix_index["gray_1"]
+                # Operation
+                if ( cf1 == True ) or ( update == True ):
+                    self.Pigmento_READ( "GRAY", kf1, 0, 0, 0, pf )
+                    self.Mixer_Neutral()
+                    if kf1 != m1:
+                        self.Mixer_Read()
+            elif fcm == "GRAY":
+                # Colors
+                k1, self.kdepth = float( fgs[1] ), int( fgs[3] )
+                cf1, kf1 = self.Read_Channel( k1, pf["gray_1"], self.kdepth )
+                m1 = self.mix_index["gray_1"]
+                # Operation
+                if ( cf1 == True ) or ( update == True ):
+                    self.Pigmento_READ( "GRAY", kf1, 0, 0, 0, pf )
+                    self.Mixer_Neutral()
+                    if kf1 != m1:
+                        self.Mixer_Read()
+            elif fcm == "CMYK":
+                # Colors
+                k1, k2, k3, k4, self.kdepth = float( fgs[1] ), float( fgs[3] ), float( fgs[5] ), float( fgs[7] ), int( fgs[9] )
+                cf1, kf1 = self.Read_Channel( k1, pf["cmyk_1"], self.kdepth )
+                cf2, kf2 = self.Read_Channel( k2, pf["cmyk_2"], self.kdepth )
+                cf3, kf3 = self.Read_Channel( k3, pf["cmyk_3"], self.kdepth )
+                cf4, kf4 = self.Read_Channel( k4, pf["cmyk_4"], self.kdepth )
+                m1 = self.mix_index["cmyk_1"]
+                m2 = self.mix_index["cmyk_2"]
+                m3 = self.mix_index["cmyk_3"]
+                m4 = self.mix_index["cmyk_4"]
+                # Operation
+                if ( cf1 == True ) or ( cf2 == True ) or ( cf3 == True ) or ( cf4 == True ) or ( update == True ):
+                    self.Pigmento_READ( "CMYK", kf1, kf2, kf3, kf4, pf )
+                    self.Mixer_Neutral()
+                    if kf1 != m1 or kf2 != m2 or kf3 != m3 or kf4 != m4:
+                        self.Mixer_Read()
+            elif fcm in [ "SRGB", "LRGB", "YUV", "XYZ", "LAB" ]:
+                # Variables
+                if   fcm == "SRGB": s1, s2, s3 = "srgb_1", "srgb_2", "srgb_3"
+                elif fcm == "LRGB": s1, s2, s3 = "lrgb_1", "lrgb_2", "lrgb_3"
+                elif fcm == "YUV":  s1, s2, s3 = "yuv_1",  "yuv_2",  "yuv_3"
+                elif fcm == "XYZ":  s1, s2, s3 = "xyz_1",  "xyz_2",  "xyz_3"
+                elif fcm == "LAB":  s1, s2, s3 = "lab_1",  "lab_2",  "lab_3"
+                # Colors
+                k1, k2, k3, self.kdepth = float( fgs[1] ), float( fgs[3] ), float( fgs[5] ), int( fgs[7] )
+                cf1, kf1 = self.Read_Channel( k1, pf[s1], self.kdepth )
+                cf2, kf2 = self.Read_Channel( k2, pf[s2], self.kdepth )
+                cf3, kf3 = self.Read_Channel( k3, pf[s3], self.kdepth )
+                m1 = self.mix_index[s1]
+                m2 = self.mix_index[s2]
+                m3 = self.mix_index[s3]
+                # Operation
+                if ( cf1 == True ) or ( cf2 == True ) or ( cf3 == True ) or ( update == True ):
+                    self.Pigmento_READ( fcm, kf1, kf2, kf3, 0, pf )
+                    self.Mixer_Neutral()
+                    if kf1 != m1 or kf2 != m2 or kf3 != m3:
+                        self.Mixer_Read()
+        # Krita Background Color
+        elif ( self.bgc != bgc != None ) and ( vi == 0 ) or ( update == True ):
+            # Variables
+            self.bgc = bgc
+            bcm = self.Color_Model_Index( bgc.colorModel() )
+            bgs = bgc.toQString().split()
+            # Color Model
+            if bcm == "A":
+                # Colors
+                k1 = float( bgs[1] ) # does not display range so it is inhereted
+                cb1, kb1 = self.Read_Channel( k1, pb["gray_1"], self.kdepth )
+                # Operation
+                if ( cb1 == True ) or ( update == True ):
+                    self.Pigmento_READ( "GRAY", kb1, 0, 0, 0, pb )
+            elif bcm == "GRAY":
+                # Colors
+                k1, ka = float( bgs[1] ), int( bgs[3] )
+                cb1, kb1 = self.Read_Channel( k1, pb["gray_1"], ka )
+                # Operation
+                if ( cb1 == True ) or ( update == True ):
+                    self.Pigmento_READ( "GRAY", kb1, 0, 0, 0, pb )
+            elif bcm == "CMYK":
+                # Colors
+                k1, k2, k3, k4, ka = float( bgs[1] ), float( bgs[3] ), float( bgs[5] ), float( bgs[7] ), int( bgs[9] )
+                cb1, kb1 = self.Read_Channel( k1, pb["cmyk_1"], ka )
+                cb2, kb2 = self.Read_Channel( k2, pb["cmyk_2"], ka )
+                cb3, kb3 = self.Read_Channel( k3, pb["cmyk_3"], ka )
+                cb4, kb4 = self.Read_Channel( k4, pb["cmyk_4"], ka )
+                # Operation
+                if ( cb1 == True ) or ( cb2 == True ) or ( cb3 == True ) or ( cb4 == True ) or ( update == True ):
+                    self.Pigmento_READ( "CMYK", kb1, kb2, kb3, kb4, pb )
+            elif bcm in [ "SRGB", "LRGB", "YUV", "XYZ", "LAB" ]:
+                # Variables
+                if bcm == "SRGB":
+                    s1 = "srgb_1"
+                    s2 = "srgb_2"
+                    s3 = "srgb_3"
+                elif bcm == "LRGB":
+                    s1 = "lrgb_1"
+                    s2 = "lrgb_2"
+                    s3 = "lrgb_3"
+                elif bcm == "YUV":
+                    s1 = "yuv_1"
+                    s2 = "yuv_2"
+                    s3 = "yuv_3"
+                elif bcm == "XYZ":
+                    s1 = "xyz_1"
+                    s2 = "xyz_2"
+                    s3 = "xyz_3"
+                elif bcm == "LAB":
+                    s1 = "lab_1"
+                    s2 = "lab_2"
+                    s3 = "lab_3"
+                # Colors
+                k1, k2, k3, ka = float( bgs[1] ), float( bgs[3] ), float( bgs[5] ), int( bgs[7] )
+                cb1, kb1 = self.Read_Channel( k1, pb[s1], ka )
+                cb2, kb2 = self.Read_Channel( k2, pb[s2], ka )
+                cb3, kb3 = self.Read_Channel( k3, pb[s3], ka )
+                # Operation
+                if ( cb1 == True ) or ( cb2 == True ) or ( cb3 == True ) or ( update == True ):
+                    self.Pigmento_READ( bcm, kb1, kb2, kb3, 0, pb )
+        # Krita Vector Color
+        elif ( vi > 0 ) or ( update == True ):
+            # Variables
+            v = 255
+            # Foreground Color
+            vfg = fgc.colorForCanvas( vc )
+            kf1 = vfg.redF()
+            kf2 = vfg.greenF()
+            kf3 = vfg.blueF()
+            self.kdepth = vfg.alpha()
+            # Background Color
+            vbg = bgc.colorForCanvas( vc )
+            kb1 = vbg.redF()
+            kb2 = vbg.greenF()
+            kb3 = vbg.blueF()
+            # Range
+            cf1 = kf1 != pf["srgb_1"]
+            cf2 = kf2 != pf["srgb_2"]
+            cf3 = kf3 != pf["srgb_3"]
+            cb1 = kb1 != pb["srgb_1"]
+            cb2 = kb2 != pb["srgb_2"]
+            cb3 = kb3 != pb["srgb_3"]
+            # Operation
+            if ( cf1 == True ) or ( cf2 == True ) or ( cf3 == True ) or ( update == True ):
+                self.Pigmento_READ( cmodel, kf1, kf2, kf3, 0, pf )
+            if ( cb1 == True ) or ( cb2 == True ) or ( cb3 == True ) or ( update == True ):
+                self.Pigmento_READ( cmodel, kb1, kb2, kb3, 0, pb )
+>>>>>>> 8370fad2ad8974b70f4c15e17481d7cdfa041c99
     def Read_Only( self, kdocument ):
         # Variables
         fgc = kdocument["fgc"]
@@ -2046,9 +2286,14 @@ class Picker_Docker( DockWidget ):
         self.Sync_Elements( True, True, True )
     def Pigmento_PRESS( self, mode, var_1, var_2, var_3, var_4, color ):
         self.Color_Convert( mode, var_1, var_2, var_3, var_4, color )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
     def Pigmento_SYNC( self ):
-        self.Sync_Elements( True, True, True )
+        color_old = self.history_pending
+        self.history_pending = False
+        if color_old == True:
+            self.widget_press = False
+        self.Sync_Elements( True, True, color_old )
 
     #endregion
     #region Color
@@ -2827,8 +3072,12 @@ class Picker_Docker( DockWidget ):
             pw = int( side - x * side - k * side )
             ph = int( side - y2 * side )
         if self.hue_shape == "SQUARE":
-            # index = 1
-            k1 = 0.2
+            border_width = 0.015
+            inner_circle_diameter = max( 0.1, 1 - 2 * ( border_width + self.hue_ring_width ) )
+            safety_margin = 0.025
+            available_diameter = max( 0.1, inner_circle_diameter - safety_margin )
+            colorpanel_side = available_diameter / ( 2 ** 0.5 )
+            k1 = max( 0.05, ( 1 - colorpanel_side ) * 0.5 )
             k2 = 2 * k1
             px = int( px + k1 * side )
             py = int( py + k1 * side )
@@ -3457,6 +3706,7 @@ class Picker_Docker( DockWidget ):
     # Signals
     def Panel_Square_Value( self, mode, v1, v2, v3 ):
         self.Color_Convert( mode, v1, v2, v3, 0, self.color_index )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
 
     #endregion
@@ -3493,6 +3743,7 @@ class Picker_Docker( DockWidget ):
         if self.wheel_mode == "ANALOG": angle = self.convert.huea_to_hued( angle )
         c1, c2, c3 = Space_Index( self.wheel_space )
         self.Color_Convert( self.wheel_space, angle, self.color_index[c2], self.color_index[c3], 0, self.color_index )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
 
     # Update
@@ -3533,6 +3784,7 @@ class Picker_Docker( DockWidget ):
     # Signals
     def Panel_Hue_Shape_Value( self, mode, v1, v2, v3 ):
         self.Color_Convert( mode, v1, v2, v3, 0, self.color_index )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
 
     #endregion
@@ -3567,6 +3819,7 @@ class Picker_Docker( DockWidget ):
     def Panel_Gamut_Value( self, mode, v1, v2, v3 ):
         if self.wheel_mode == "ANALOG": v1 = self.convert.huea_to_hued( v1 )
         self.Color_Convert( mode, v1, v2, v3, 0, self.color_index )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
     def Panel_Gamut_Profile( self, gamut_profile ):
         self.gamut_profile = gamut_profile
@@ -3602,9 +3855,11 @@ class Picker_Docker( DockWidget ):
     # Signals
     def Panel_Hexagon_Value( self, mode, v1, v2, v3 ):
         self.Color_Convert( mode, v1, v2, v3, 0, self.color_index )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
     def Panel_Hexagon_Depth( self, v3 ):
         self.Color_Convert( "ARD", self.color_index["ard_1"], self.color_index["ard_2"], v3, 0, self.color_index )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
 
     #endregion
@@ -3636,12 +3891,14 @@ class Picker_Docker( DockWidget ):
     # Signals
     def Panel_Luma_Value( self, mode, v1, v2, v3 ):
         self.Color_Convert( mode, v1, v2, v3, 0, self.color_index )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
 
     #endregion
     #region UI LAYOUT PANEL Plane
 
     # Update
+<<<<<<< HEAD
     def Panel_Plane_Gradient( self, update=False ):
         # Variable
         mini = 2 # amount of square
@@ -3659,6 +3916,56 @@ class Picker_Docker( DockWidget ):
         else:           plane_ux = self.plane_unit
         if dy > maxi:   plane_uy = int( height / ( maxi + self.plane_split ) )
         else:           plane_uy = self.plane_unit
+=======
+    def Panel_Dot_Gradient( self ):
+        # Variables
+        dot_00 = self.dot_color[0]
+        dot_01 = self.dot_color[1]
+        dot_02 = self.dot_color[2]
+        dot_03 = self.dot_color[3]
+        # Color Lines
+        line_top = list()
+        for i in range( 0, self.dot_dimension ):
+            line_top.append( dot_02 )
+        line_mid = list()
+        for i in range( 0, self.dot_dimension ):
+            if i == self.dot_dimension: color = dot_01
+            else:                       color = self.Color_Interpolate_2( self.mixer_space, dot_00, dot_01, i / ( self.dot_dimension-1 ) )
+            line_mid.append( color )
+        line_bot = list()
+        for i in range( 0, self.dot_dimension ):
+            line_bot.append( dot_03 )
+        # Color Matrix
+        dot_matrix = list()
+        value_top = 0
+        value_mid = int( self.dot_dimension * 0.5 )
+        value_bot = self.dot_dimension - 1
+        for y in range( 0, self.dot_dimension ):
+            line = list()
+            for x in range( 0, self.dot_dimension ):
+                if y == value_top:
+                    line.append( line_top[x]["hex6"] )
+                if ( y > value_top and y < value_mid ):
+                    color = self.Color_Interpolate_2( self.mixer_space, line_top[x], line_mid[x], y / value_mid )
+                    line.append( color["hex6"] )
+                if y == value_mid:
+                    line.append( line_mid[x]["hex6"] )
+                if ( y > value_mid and y < value_bot ):
+                    color = self.Color_Interpolate_2( self.mixer_space, line_mid[x], line_bot[x], ( y-value_mid ) / value_mid )
+                    line.append( color["hex6"] )
+                if y == value_bot:
+                    line.append( line_bot[x]["hex6"] )
+            dot_matrix.append( line )
+        if len( dot_matrix ) == 0:
+            dot_matrix = None
+        # Update
+        self.panel_dot.Update_Gradient( dot_matrix, self.dot_dimension )
+    # Signals
+    def Panel_Dot_Value( self, hex_code ):
+        self.Color_Convert( "HEX", hex_code, 0, 0, 0, self.color_index )
+        self.history_pending = True
+        self.Sync_Elements( not self.performance_release, True, False )
+>>>>>>> 8370fad2ad8974b70f4c15e17481d7cdfa041c99
 
         # Calculation Interpolation of Colors
         check_widget = ( self.plane_ww != ww ) or ( self.plane_hh != hh )
@@ -3735,6 +4042,7 @@ class Picker_Docker( DockWidget ):
     # Signals
     def Panel_Plane_Value( self, hex_code ):
         self.Color_Convert( "HEX", hex_code, 0, 0, 0, self.color_index )
+        self.history_pending = True
         self.Sync_Elements( not self.performance_release, True, False )
     def Panel_Plane_Index( self, index ):
         self.plane_color[index] = self.color_index.copy()
@@ -3781,7 +4089,12 @@ class Picker_Docker( DockWidget ):
     # Signals
     def Panel_Mask_Value( self, hex_code ):
         self.Color_Convert( "HEX", hex_code, 0, 0, 0, self.color_index )
+        self.history_pending = True
+<<<<<<< HEAD
         self.Sync_Elements( not self.performance_release, True, False )
+=======
+        self.Sync_Elements( not self.performance_release, True, False )
+>>>>>>> 8370fad2ad8974b70f4c15e17481d7cdfa041c99
 
     # Live
     def Panel_Mask_Live( self ):
@@ -4911,45 +5224,76 @@ class Picker_Docker( DockWidget ):
         qpoint = QPoint( widget.x()+mouse.x(), widget.y()+mouse.y() )
         action = qmenu.exec_( qpoint )
         if action == action_clear:
-            self.layout.history_list.clear()
+            self.History_Clear()
 
     # Operations
+    def History_Save( self ):
+        limit = 100
+        history_hex = list()
+        count = self.layout.history_list.count()
+        for i in range( 0, min( count, limit ) ):
+            item = self.layout.history_list.item( i )
+            if item != None:
+                hex_code = item.toolTip()
+                if self.HEX_Valid( hex_code, 6 ) == True:
+                    history_hex.append( hex_code )
+        self.history_hex = history_hex
+        Kritarc_Write( DOCKER_PICKER, "history_hex", self.history_hex )
+    def History_Load( self ):
+        self.layout.history_list.clear()
+        if type( self.history_hex ) != list:
+            self.history_hex = list()
+        for hex_code in self.history_hex:
+            if self.HEX_Valid( hex_code, 6 ) == True:
+                self.History_Add( hex_code, save=False )
     def History_List( self, hex_code ):
+        if self.HEX_Valid( hex_code, 6 ) == False:
+            return
         # Variables
         limit = 100
         remove = list()
         count = self.layout.history_list.count()
+        if self.widget_press == True:
+            self.layout.history_list.clearSelection()
+            return
+        if count == 0 and hex_code.lower() == "#000000":
+            return
         # Remove Cycle
-        if self.cursor_inside == False:
-            # Remove
-            for i in range( 0, count ):
-                item = self.layout.history_list.item( i )
-                name = item.toolTip()
-                if ( i > limit-2 ) or ( hex_code == name ):
-                    remove.append( i )
-            remove.reverse()
-            for i in remove:
-                self.layout.history_list.takeItem( i )
-            # Add
-            self.History_Add( hex_code )
+        for i in range( 0, count ):
+            item = self.layout.history_list.item( i )
+            name = item.toolTip()
+            if ( i > limit-2 ) or ( hex_code.lower() == name.lower() ):
+                remove.append( i )
+        remove.reverse()
+        for i in remove:
+            self.layout.history_list.takeItem( i )
+        # Add
+        self.History_Add( hex_code )
         # User Interface
         self.layout.history_list.clearSelection()
-    def History_Add( self, hex_code ):
+    def History_Add( self, hex_code, save=True ):
         color = QColor( hex_code )
-        pixmap = QPixmap( 20, 20 )
-        pixmap.fill( color )
         item = QListWidgetItem()
         item.setToolTip( hex_code )
-        item.setIcon( QIcon( pixmap ) )
+        item.setData( QtCore.Qt.UserRole, hex_code )
+        item.setSizeHint( QtCore.QSize( 20, 20 ) )
         item.setBackground( QBrush( color ) )
         self.layout.history_list.insertItem( 0, item )
         if self.ui_history == True:
             self.layout.history_list.setCurrentRow( 0 )
+        if save == True:
+            self.History_Save()
     def History_Apply( self ):
         current = self.layout.history_list.currentItem()
-        color = current.background().color()
-        hex_code = color.name()
+        if current == None:
+            return
+        hex_code = current.data( QtCore.Qt.UserRole )
+        if self.HEX_Valid( hex_code, 6 ) == False:
+            hex_code = current.toolTip()
         self.Pigmento_APPLY( "HEX", hex_code, 0, 0, 0, self.color_index )
+    def History_Clear( self ):
+        self.layout.history_list.clear()
+        self.History_Save()
 
     #endregion
     #region UI LAYOUT FOOTER
@@ -5245,6 +5589,14 @@ class Picker_Docker( DockWidget ):
         self.Size_Update() # Updates Mask
         self.Panel_Gradient( self.kmodel )
         Kritarc_Write( DOCKER_PICKER, "hue_shape", self.hue_shape )
+    def Hue_Ring_Width( self, hue_ring_width ):
+        self.hue_ring_width = max( 0.025, min( 0.2, float( hue_ring_width ) ) )
+        if self.dialog.hue_ring_width.value() != self.hue_ring_width:
+            self.dialog.hue_ring_width.setValue( self.hue_ring_width )
+        self.panel_hue_circle.Set_HueRingWidth( self.hue_ring_width )
+        self.Pigmento_SYNC()
+        self.Size_Update()
+        Kritarc_Write( DOCKER_PICKER, "hue_ring_width", self.hue_ring_width )
     # Options Gamut
     def Gamut_Mask( self, gamut_mask ):
         self.gamut_mask = gamut_mask
@@ -6116,8 +6468,12 @@ class Picker_Docker( DockWidget ):
 
     # Colors Spaces
     def CS_Luminosity( self, cs_luminosity ):
-        self.cs_luminosity = cs_luminosity
-        self.convert.Set_Luminosity( self.cs_luminosity )
+        self.convert.Set_Luminosity( cs_luminosity )
+        self.cs_luminosity = self.convert.luminosity
+        if self.dialog.cs_luminosity.currentText() != self.cs_luminosity:
+            self.dialog.cs_luminosity.blockSignals( True )
+            self.dialog.cs_luminosity.setCurrentText( self.cs_luminosity )
+            self.dialog.cs_luminosity.blockSignals( False )
         self.Pigmento_SYNC()
         Kritarc_Write( DOCKER_PICKER, "cs_luminosity", self.cs_luminosity )
     def CS_Matrix( self, cs_matrix ):
@@ -6362,8 +6718,10 @@ class Picker_Docker( DockWidget ):
         self.cursor_inside = True
     def leaveEvent( self, event ):
         self.cursor_inside = False
+        self.widget_press = False
         self.Focus_Clear()
-        self.Pigmento_SYNC()
+        # Avoid forcing Picker color back into Krita on hover transitions.
+        self.Krita_Read()
     def closeEvent( self, event ):
         try:self.qtimer_pulse.stop()
         except:pass
@@ -6399,6 +6757,10 @@ class Picker_Docker( DockWidget ):
             ]
         if ( et == QEvent.Resize and source in panels ):
             self.Size_Update()
+        if ( et == QEvent.MouseButtonPress and ( source in panels or source == self.layout.history_list ) ):
+            self.widget_press = True
+        if ( et == QEvent.MouseButtonRelease and ( source in panels or source == self.layout.history_list ) ):
+            self.widget_press = False
         if ( et == QEvent.ContextMenu and source == self.layout.history_list ):
             self.History_Menu( event )
         # Mode
